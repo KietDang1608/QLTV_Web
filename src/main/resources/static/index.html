@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>List Thanh Vien</div>
+<table border="1">
+    <tr>
+        <th>MaTV</th>
+        <th>Ho Ten</th>
+        <th>Khoa</th>
+        <th>Nganh</th>
+        <th>SDT</th>
+        <th>Password</th>
+        <th>Email</th>
+    </tr>
+    <tr th:each ="row, state: ${data}">
+        <td th:utext="{state.count}">...</td>
+        <td th:utext="{row.hoTen}">...</td>
+        <td th:utext="{row.khoa}">...</td>
+        <td th:utext="{row.nganh}">...</td>
+        <td th:utext="{row.sdt}">...</td>
+        <td th:utext="{row.password}">...</td>
+        <td th:utext="{row.email}">...</td>
+    </tr>
+</table>
+</body>
+</html>

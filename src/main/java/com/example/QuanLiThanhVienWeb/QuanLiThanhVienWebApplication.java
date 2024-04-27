@@ -9,5 +9,4 @@ public class QuanLiThanhVienWebApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuanLiThanhVienWebApplication.class, args);
 	}
-
 }
