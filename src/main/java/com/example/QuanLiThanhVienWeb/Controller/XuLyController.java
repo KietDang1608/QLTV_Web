@@ -18,7 +18,6 @@ public class XuLyController {
     public String getAll(Model m){
         Iterable<XuLy> list = xlRe.findAll();
         m.addAttribute("data",list);
-
         return "XuLyView";
     }
 
