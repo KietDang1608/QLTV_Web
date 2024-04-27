@@ -11,4 +11,5 @@ public class HomeController {
     public String toHome(){
         return "home";
     }
+
 }
