@@ -6,12 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "thietbi")
 public class ThietBi {
     @Id
-    @Column(name = "MaTB")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int maTB;
 
-    @Column(name = "TenTB")
     private String tenTB;
-    @Column(name = "MoTaTB")
     private String moTa;
 
     public ThietBi(String tenTB, String moTa) {
