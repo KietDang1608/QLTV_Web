@@ -3,8 +3,6 @@ import jakarta.persistence.*;
 
 @Entity(name = "ThanhVien")
 @Table(name = "thanhvien")
-
-
 public class ThanhVien {
 
     @Id
