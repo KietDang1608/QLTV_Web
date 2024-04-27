@@ -19,7 +19,7 @@ public class XuLyController {
         Iterable<XuLy> list = xlRe.findAll();
         m.addAttribute("data",list);
 
-        return "ThanhVienView";
+        return "XuLyView";
     }
 
 }
