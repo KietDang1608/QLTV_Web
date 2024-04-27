@@ -6,18 +6,12 @@ import jakarta.persistence.*;
 @Table(name = "xuly")
 public class XuLy {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MaXL")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int maXL;
-    @Column(name = "MaTV")
     private int maTV;
-    @Column(name = "HinhThucXL")
     private String hinhThucXL;
-    @Column(name = "SoTien")
     private Integer soTien;
-    @Column(name = "NgayXL")
     private String ngayXL;
-    @Column(name = "TrangThaiXL")
     private int trangThaiXL;
 
     public XuLy( int maTV, String hinhThucXL, Integer soTien, String ngayXL) {
