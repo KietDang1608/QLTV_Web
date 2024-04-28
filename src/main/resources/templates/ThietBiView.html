@@ -7,7 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-<div>List Thiet Bi</div>
+<div>List Thiết Bị</div>
+<form th:action="@{/QLThietBi/searchTB}" method="post">
+    Loại TB:
+    <select id="cbtenTB" name="cbtenTB">
+        <!-- Lặp qua danh sách các thành phố -->
+        <option th:value="0" th:text="All" ></option>
+        <option th:value="1" th:text="micro" ></option>
+        <option th:value="2" th:text="máy_chiếu" ></option>
+        <option th:value="3" th:text="máy_ảnh" ></option>
+        <option th:value="4" th:text="cassette"></option>
+        <option th:value="5" th:text="tivi"></option>
+        <option th:value="6" th:text="quạt_đứng"></option>
+    </select>
+
+    Mô tả:
+    <input type="text" name="mota"/>
+    <button type="submit">Lọc</button>
+</form>
+<br>
 <table border="1">
     <tr>
         <th>MaTb</th>

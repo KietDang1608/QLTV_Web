@@ -2,6 +2,8 @@ package com.example.QuanLiThanhVienWeb.Controller;
 import com.example.QuanLiThanhVienWeb.Entity.ThietBi;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.QuanLiThanhVienWeb.Repositories.ThietBiRepository;
 
@@ -19,6 +23,10 @@ public class ThietBiController {
     @Autowired
     private ThietBiRepository tbRe;
     private static ArrayList<ThietBi> listTB = new ArrayList();
+    @RequestMapping("/QLThietBi")
+    public String toThietBi(){
+        return "ThietBiView";
+    }
     @GetMapping("/QLThietBi")
     public String getAll(Model m){
         Iterable<ThietBi> list = tbRe.findAll();
@@ -96,5 +104,45 @@ public class ThietBiController {
         tbRe.delete(tb);
         return "redirect:/QLThietBi";
     }
+
+    @PostMapping("/QLThietBi/searchTB")
+    public String handleSeachSubmit(
+        @RequestParam("cbtenTB") int maLoaiTB,
+        @RequestParam("mota") String mota,
+            Model model) {
+                ArrayList<ThietBi> lstFound = new ArrayList<>();
+            if(maLoaiTB==0)
+            {
+                lstFound=(ArrayList<ThietBi>) tbRe.findAll();
+            }
+            else{
+                lstFound = getDSTBBYMaLoai(maLoaiTB,mota);
+            }
+        model.addAttribute("data",lstFound);
+        model.addAttribute("cbtenTB",maLoaiTB);
+        model.addAttribute("mota",mota);
+        
+        return "ThietBiView"; // Trang hiển thị kết quả
+    }
+
+
+    private ArrayList<ThietBi> getDSTBBYMaLoai(int maLoaiTB,String mota){
+        ArrayList<ThietBi> lstFound = new ArrayList<>();
+        for (ThietBi tb: tbRe.findAll()){
+            String matbString=String.valueOf(tb.getMaTB());
+            String sodau=matbString.substring(0,1);
+            System.out.println(sodau);
+            System.out.println(maLoaiTB);
+            if(sodau.equals(String.valueOf(maLoaiTB)))
+            {
+                if (tb.getMoTa().contains(mota)) {
+                    lstFound.add(tb);
+                }
+            }
+        }
+        return lstFound;
+    }
+
+   
 
 }
