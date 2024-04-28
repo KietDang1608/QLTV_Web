@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>Danh sách xử lý</div>
+<table border="1">
+    <tr>
+        <th>Mã xử lý</th>
+        <th>Mã thành viên</th>
+        <th>Hình thức xử lý</th>
+        <th>Số tiền</th>
+        <th>Ngày xử lý</th>
+        <th>Trạng thái</th>
+    </tr>
+    <tr th:each ="row : ${data}">
+        <td th:utext="${row.maXL}">...</td>
+        <td th:utext="${row.maTV}">...</td>
+        <td th:utext="${row.hinhThucXL}">...</td>
+        <td th:utext="${row.soTien}">...</td>
+        <td th:utext="${row.ngayXL}">...</td>
+        <td th:utext="${row.trangThaiXL}">...</td>
+    </tr>
+</table>
+</body>
+</html>
