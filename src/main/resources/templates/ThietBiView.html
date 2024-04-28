@@ -13,13 +13,18 @@
         <th>MaTb</th>
         <th>TenTB</th>
         <th>MotaTB</th>
-        
+        <th>Chức năng</th>
     </tr>
     <tr th:each ="row : ${data}">
         <td th:utext="${row.maTB}">...</td>
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
+        <td >  
+            <a th:href="'/QLThietBi/edit/'+ ${rowStat.index}" >Edit</a>  
+            <a th:href="'/QLThietBi/delete/'+ ${rowStat.index}">Delete</a>  
+        </td>
     </tr>
 </table>
+<p><a href="/addTB">Thêm thiết bị</p>
 </body>
 </html>
