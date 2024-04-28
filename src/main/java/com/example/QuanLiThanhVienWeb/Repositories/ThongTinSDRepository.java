@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ThongTinSDRepository extends CrudRepository<ThongTinSD,Long> {
+public interface ThongTinSDRepository extends CrudRepository<ThongTinSD,Integer> {
 }
