@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <h2>Form thêm thiết bị</h2>
+    <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
+        <input type="hidden" th:field="*{maTB}" />
+        <br/>
+        Loại TB:
+    <select id="cbtenTB" name="cbtenTB">
+        <!-- Lặp qua danh sách các thành phố -->
+        <option th:value="1" th:text="micro" ></option>
+        <option th:value="2" th:text="máy_chiếu" ></option>
+        <option th:value="3" th:text="máy_ảnh" ></option>
+        <option th:value="4" th:text="cassette"></option>
+        <option th:value="5" th:text="tivi"></option>
+        <option th:value="6" th:text="quạt_đứng"></option>
+    </select>
+        <label> Tên thiết bị</label>
+        <input type="text" th:field="*{tenTB}" />
+        <br/>
+        <label> Mô tả thiết bị</label>
+        <input type="text" th:field="*{moTa}" />
+        <input type="submit" value="Create" />
+        <br/>
+    </form>
+</div>
+
+</body>
+</html>

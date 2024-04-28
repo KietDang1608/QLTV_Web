@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<div>
+    <h2>Form sửa thiết bị</h2>
+    <form th:object="${thietbi}" th:action="@{/update}" action="#" method="POST">
+        
+        <input type="hidden" th:field="*{maTB}" />
+        <br/>
+        <label> Tên thiết bị</label>
+        <input type="text" th:field="*{tenTB}" />
+        <br/>
+        <label> Mô tả thiết bị</label>
+        <input type="text" th:field="*{moTa}" />
+        <input type="submit" value="Update" />
+        <br/>
+    </form>
+</div>
+
+</body>
+</html>
