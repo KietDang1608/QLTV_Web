@@ -1,6 +1,7 @@
 package com.example.QuanLiThanhVienWeb.Controller;
 import com.example.QuanLiThanhVienWeb.Entity.ThietBi;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -47,11 +48,15 @@ public class ThietBiController {
 
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String save(Model model, @ModelAttribute("thietbi") ThietBi tb) {
+    public String save(Model model, @ModelAttribute("thietbi") ThietBi tb,
+    @RequestParam("cbtenTB") int maLoaiTB) {
         int id = tb.getMaTB();
         String tentb = tb.getTenTB();
         String mota = tb.getMoTa();
-        ThietBi tb2 = new ThietBi(tentb, mota);
+        
+        ThietBi last=getLastTBByMaLoai(maLoaiTB);
+        ThietBi tb2 = new ThietBi(last.getMaTB()+1,tentb, mota);
+        System.out.println(tb2.getMaTB());
         tbRe.save(tb2);
         Iterable<ThietBi> list = tbRe.findAll();
         model.addAttribute("list", list);
@@ -105,6 +110,20 @@ public class ThietBiController {
         return "redirect:/QLThietBi";
     }
 
+    @PostMapping(value = "/QLThietBi/deleteSelected")
+    public String deleteSelectedTB(@RequestParam("selectedItems") String selectedItems) {
+        // Chia chuỗi selectedItems thành mảng các maTB
+        String[] maTBs = selectedItems.split(",");
+        for (String maTB : maTBs) {
+            // Chuyển đổi maTB từ String sang int
+            int id = Integer.parseInt(maTB);
+            System.out.println(id);
+            ThietBi tb = getTBByID(id);
+            tbRe.delete(tb);
+        }
+        return "redirect:/QLThietBi";
+    }
+
     @PostMapping("/QLThietBi/searchTB")
     public String handleSeachSubmit(
         @RequestParam("cbtenTB") int maLoaiTB,
@@ -131,8 +150,6 @@ public class ThietBiController {
         for (ThietBi tb: tbRe.findAll()){
             String matbString=String.valueOf(tb.getMaTB());
             String sodau=matbString.substring(0,1);
-            System.out.println(sodau);
-            System.out.println(maLoaiTB);
             if(sodau.equals(String.valueOf(maLoaiTB)))
             {
                 if (tb.getMoTa().contains(mota)) {
@@ -143,6 +160,29 @@ public class ThietBiController {
         return lstFound;
     }
 
-   
+    private ThietBi getLastTBByMaLoai(int maLoaiTB){
+        ThietBi kq = new ThietBi();
+        ThietBi maxThietBi = null;
+        for (ThietBi tb: tbRe.findAll()){
+            String matbString=String.valueOf(tb.getMaTB());
+            String sodau=matbString.substring(0,1);
+            if(sodau.equals(String.valueOf(maLoaiTB)))
+            {
+                String phanconLai=matbString.substring(1,5);
+                if(Integer.parseInt(phanconLai)==LocalDate.now().getYear())
+                {
+                if (maxThietBi == null || Integer.parseInt(matbString) > Integer.parseInt(String.valueOf(maxThietBi.getMaTB()))) {
+                    maxThietBi = tb;
+                }
+                }
+            }
+        }
+        if (maxThietBi != null) 
+        {
+            System.out.println(maxThietBi.getMaTB()+1);
+            kq = maxThietBi;
+        }
+        return kq;
+    }
 
 }

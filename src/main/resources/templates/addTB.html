@@ -10,9 +10,18 @@
 <div>
     <h2>Form thêm thiết bị</h2>
     <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
-        <label> Mã thiết bị</label>
         <input type="hidden" th:field="*{maTB}" />
         <br/>
+        Loại TB:
+    <select id="cbtenTB" name="cbtenTB">
+        <!-- Lặp qua danh sách các thành phố -->
+        <option th:value="1" th:text="micro" ></option>
+        <option th:value="2" th:text="máy_chiếu" ></option>
+        <option th:value="3" th:text="máy_ảnh" ></option>
+        <option th:value="4" th:text="cassette"></option>
+        <option th:value="5" th:text="tivi"></option>
+        <option th:value="6" th:text="quạt_đứng"></option>
+    </select>
         <label> Tên thiết bị</label>
         <input type="text" th:field="*{tenTB}" />
         <br/>
