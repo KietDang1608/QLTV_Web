@@ -6,7 +6,24 @@
 </head>
 <body>
 <h1>THỐNG KÊ VÀO KHU VỰC HỌC TẬP</h1>
+<form th:action="@{/ThongKe/TKTTSD/searchTKTTSD}" method="post">
+    Start: <input type="datetime-local" name="ngaybd" id="ngaybd" th:value="${ngaybd}">
+    End: <input type="datetime-local" name="ngaykt" id="ngaykt" th:value="${ngaykt}">
+    Khoa:
+    <select id="cbkhoa" name="cbkhoa">
+    <!-- Lặp qua danh sách các thành phố -->
+    <option th:each="khoa : ${cbKhoa}" th:value="${khoa}" th:text="${khoa}" th:selected="${khoa == cbkhoa}"></option>
+    </select>
+    Ngành:
+    <select id="cbnganh" name="cbnganh">
+        <!-- Lặp qua danh sách các thành phố -->
+        <option th:each="nganh : ${cbNganh}" th:value="${nganh}" th:text="${nganh}" th:selected="${nganh == cbnganh}"></option>
+    </select>
+    <button type="submit">Lọc</button>
+</form>
+<script>
 
+</script>
 <!-- Tạo bảng để hiển thị dữ liệu -->
 <table border="1" width="100%">
     <thead>
