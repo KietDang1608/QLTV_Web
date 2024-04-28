@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+
 <div>List Thiết Bị</div>
 <form th:action="@{/QLThietBi/searchTB}" method="post">
     Loại TB:
@@ -30,11 +31,15 @@
     <input type="hidden" id="selectedItems" name="selectedItems">
     <input type="submit" value="Delete Selected" onclick="return updateSelectedItems()">
 </form>
+
+<div>List Thiet Bi</div>
+
 <table border="1">
     <tr>
         <th>MaTb</th>
         <th>TenTB</th>
         <th>MotaTB</th>
+
         <th>Chức năng</th>
         <th>Select</th>
     </tr>
@@ -42,6 +47,7 @@
         <td th:utext="${row.maTB}">...</td>
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
+
         <td >  
             <a th:href="'/QLThietBi/edit/'+ ${rowStat.index}" >Edit</a>  
             <a th:href="'/QLThietBi/delete/'+ ${rowStat.index}">Delete</a>  
@@ -71,6 +77,9 @@
             console.log(selectedItems);
         }
     </script>
-    
+
+    </tr>
+</table>
+
 </body>
 </html>

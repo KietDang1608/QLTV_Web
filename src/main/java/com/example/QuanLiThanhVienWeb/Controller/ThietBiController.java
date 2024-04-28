@@ -1,6 +1,7 @@
 package com.example.QuanLiThanhVienWeb.Controller;
 import com.example.QuanLiThanhVienWeb.Entity.ThietBi;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import com.example.QuanLiThanhVienWeb.Repositories.ThietBiRepository;
 public class ThietBiController {
     @Autowired
     private ThietBiRepository tbRe;
+
     private static ArrayList<ThietBi> listTB = new ArrayList();
     @RequestMapping("/QLThietBi")
     public String toThietBi(){
@@ -38,6 +41,7 @@ public class ThietBiController {
         // }
         return "ThietBiView";
     }
+
 
     @RequestMapping(value = "addTB")
     public String showAddForm(Model model) {
@@ -184,5 +188,6 @@ public class ThietBiController {
         }
         return kq;
     }
+
 
 }
