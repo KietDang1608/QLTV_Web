@@ -6,14 +6,12 @@ import jakarta.persistence.*;
 @Table(name = "thietbi")
 public class ThietBi {
     @Id
-
     private int maTB;
 
     private String tenTB;
     private String moTa;
 
-    public ThietBi(int maTB,String tenTB, String moTa) {
-        this.maTB=maTB;
+    public ThietBi(String tenTB, String moTa) {
         this.tenTB = tenTB;
         this.moTa = moTa;
     }

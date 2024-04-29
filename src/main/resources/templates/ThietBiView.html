@@ -52,7 +52,10 @@
     </tr>
 </table>
 <p><a href="/addTB">Thêm thiết bị</p>
-    
+    <form action="/importExcel" method="post" enctype="multipart/form-data">
+        <input type="file" name="excelFile" id="excelFile" accept=".xls,.xlsx">
+        <button type="submit">Import Excel</button>
+    </form> 
 
     <script th:inline="javascript">
         function updateSelectedItems() {
