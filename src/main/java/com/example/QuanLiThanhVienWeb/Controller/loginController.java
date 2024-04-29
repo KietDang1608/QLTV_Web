@@ -133,7 +133,10 @@ public class loginController {
     }
     @PostMapping("thayDoiMatKhau")
     public String thayDoiMatKhau(Model m, @RequestParam("password") String password, @RequestParam("NMK") String NMK, @RequestParam("id") int id) {
-
+    	if(password.isEmpty() || NMK.isEmpty()) {
+    	    m.addAttribute("erroll", "Không được để trống ,xin vui lòng gửi lại !! ");
+    	    return "quenMK";
+    	}else 
         if (!password.equals(NMK)) {
             System.out.println("Mật khẩu không khớp!");
             m.addAttribute("erroll", "Mật khẩu không khớp , xin vui lòng gửi lại ");
@@ -150,7 +153,6 @@ public class loginController {
                 return "quenMK";
             }
         }
+ 
     }
-
-
 }
