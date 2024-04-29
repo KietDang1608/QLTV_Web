@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/doiMatKhau.css}">
+
+    <title>Change Pass</title>
+</head>
+<body>
+<div class="mainDiv">
+    <div class="cardStyle">
+        <form th:action="@{'/save-password?userId='+ ${userId}}" method="post" name="signupForm" id="signupForm">
+
+            <img th:src="@{/css/ohmygodFurina.jpg}" id="signupLogo" alt="Oh My God Furina">
+
+            <h2 class="formTitle">
+                Đổi mật khẩu
+            </h2>
+
+            <div class="inputDiv">
+                <label class="inputLabel" for="password">New Password</label>
+                <input type="password" id="password" name="password" th:required="required">
+            </div>
+
+            <div class="inputDiv">
+                <label class="inputLabel" for="confirmedPass">Confirm Password</label>
+                <input type="password" id="confirmedPass" name="confirmedPass" th:required="required">
+            </div>
+
+            <div class="buttonWrapper">
+                <button type="submit" id="submitButton" onclick="validatePassword()" class="submitButton pure-button pure-button-primary">
+                    <span>Continue</span>
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    var password = document.getElementById("password"),
+        confirm_password = document.getElementById("confirmedPass");
+
+    function validatePassword() {
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+            return false;
+        } else {
+            confirm_password.setCustomValidity('');
+            return true;
+        }
+    }
+</script>
+</body>
+</html>
