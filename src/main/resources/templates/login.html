@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="background-dn">
+        <div class="dn">
+            <h3>Đăng Nhập</h3>
+            <p class="success" th:text="${success}"></p>
+            <form action="/checklogin" method="post">
+                <label >Email :</label>
+                <input type="text" name="taiKhoan"id=""><br>
+                <label >Mật khẩu : </label>
+                <input type="password" name="password"id=""><br>
+                <button type="submit">Đăng Nhập</button>
+                <button type="submit"  formaction="/dangKy">Đăng Ký</button>
+            </form>
+            <a href="/quenMK">Quên mật khẩu</a>
+        </div>
+    </div>
+    
+    
+</body>
+</html>
