@@ -55,11 +55,13 @@ body {
 iframe {
     border: 1px solid #ddd; /* Tạo đường viền cho iframe */
 }
-.menu-button {
-  display: flex; /* Sử dụng Flexbox */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  text-decoration: none; /* Loại bỏ gạch chân */
-  padding: 10px; /* Tạo khoảng cách xung quanh */
-  gap: 10px; /* Khoảng cách giữa hình ảnh và văn bản */
+
+.logout{
+	position: absolute;
+    bottom: 30px; /* Điều chỉnh khoảng cách từ nút Log Out đến bottom của sidebar */
+    height:41px;
+    width :202px;
+    border-radius: 10px;
+    font-size: 15px;
 }
+
