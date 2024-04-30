@@ -26,26 +26,6 @@ public class ThietBiController {
     @Autowired
     private ThietBiRepository tbRe;
     private static ArrayList<ThietBi> listTB = new ArrayList();
-    
-//////<user
-	
-    @RequestMapping("/userThietbi")
-    public String toThietbiView(){
-        return "userThietbiView";
-    }
-    @GetMapping("/userThietbi")
-    public String getAll2(Model m){
-        Iterable<ThietBi> list = tbRe.findAll();
-        listTB=(ArrayList<ThietBi>) list;
-        m.addAttribute("data",list);
-        // for (ThietBi tv : list){
-        //     System.out.println(tv.getEmail());
-        // }
-        return "userThietbiView";
-    }
-	
-//////user>
-
 
     @RequestMapping("/QLThietBi")
     public String toThietBi(){

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
-import com.example.QuanLiThanhVienWeb.Entity.User;
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
-import com.example.QuanLiThanhVienWeb.Repositories.UserRepository;
 //import com.example.QuanLiThanhVienWeb.Repositories.userRepositoryImplement;
 
 @Controller
@@ -47,7 +45,7 @@ public class loginController {
 		        	if(us.getEmail().equals(taiKhoan) && us.getPassword().equals(password)) {
 		        		System.out.println("Đăng nhập thành công !!");
 		        		m.addAttribute("username", us.getHoTen());
-		        		return "home";
+		        		return "admin";
 		        	}
 	        }
     	}
