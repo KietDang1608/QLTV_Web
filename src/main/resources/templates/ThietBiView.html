@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -57,9 +57,7 @@
         </td>
     </tr>
 </table>
-<p><a href="/addTB">Thêm thiết bị</p>
-    
-
+<p><a href="/addTB">Thêm thiết bị</a></p>
     <script th:inline="javascript">
         function updateSelectedItems() {
             var selectedItems = [];
@@ -78,8 +76,6 @@
         }
     </script>
 
-    </tr>
-</table>
 
 </body>
 </html>

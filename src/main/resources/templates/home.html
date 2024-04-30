@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -19,16 +19,16 @@
         </div>
         <ul class="nav-links">
             <li>
-                <a th:href="@{/QLThanhVien}" target="content-frame">Thành viên</a>
+                <a class="menu-button" th:href="@{/QLThanhVien}" target="content-frame"><img th:src=${"/imgs/icons8-member-30.png"} alt=""> &nbsp;THÀNH VIÊN</a>
             </li>
             <li>
-                <a th:href="@{/QLThietBi}" target="content-frame">Thiết bị</a>
+                <a class="menu-button" th:href="@{/QLThietBi}" target="content-frame"><img th:src=${"/imgs/icons8-micro-30.png"} alt="">&nbsp; THIẾT BỊ</a>
             </li>
             <li>
-                <a th:href="@{/QLXuLy}" target="content-frame">Xử lý</a>
+                <a class="menu-button" th:href="@{/QLXuLy}" target="content-frame"><img th:src=${"/imgs/icons8-abuse-30.png"} alt="">&nbsp; XỬ LÝ</a>
             </li>
             <li>
-                <a th:href="@{/ThongKe}" target="content-frame">Thống kê</a>
+                <a class="menu-button" th:href="@{/ThongKe}" target="content-frame"><img th:src=${"/imgs/icons8-dashboard-30.png"} alt="">&nbsp; THỐNG KÊ</a>
             </li>
         </ul>
     </aside>
