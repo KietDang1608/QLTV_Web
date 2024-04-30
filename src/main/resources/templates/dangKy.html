@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="background-dn">
+        <div class="dk">
+            <h3>Đăng Ký</h3>
+				<form action="/checkdangKy" method="post">
+				    <label for="taiKhoan">Tài khoản:</label>
+				    <input type="text" name="taiKhoan">
+				    <span class="errollall" th:text="${errollall}"></span>
+				
+				    
+				    <label for="hoVaTen">Họ và Tên:</label>
+				    <input type="text" name="hoVaTen"><br>
+				    
+				    <label for="Khoa">Khoa:</label>
+				    <input type="text" name="Khoa"><br>
+				    
+				    <label for="Nganh">Ngành:</label>
+				    <input type="text" name="Nganh"><br>
+				    
+				    <label for="SDT">Số Điện Thoại:</label>
+				    <input type="text" name="SDT"><br>
+				    
+				    <label for="password">Mật khẩu:</label>
+				    <input type="password" name="password"><br>
+				    
+				    <label for="NMK">Nhập lại mật khẩu:</label>
+				    <input type="password" name="NMK" id="NMK"><br>
+				    
+				    <button type="submit" formaction="/login">Đăng Nhập</button>
+				    <button type="submit">Đăng Ký</button>
+				</form>
+
+        </div>
+    </div>
+</body>
+</html>

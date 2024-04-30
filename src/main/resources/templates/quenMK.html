@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="background-dn">
+        <div class="dn">
+            <h3>Quên Mật Khẩu</h3>
+             <p class="erroll"><span th:text="${erroll}"></p>
+            <form action="/checkGmailvaSDT" method="post">
+                <label >Email :</label>
+                <input type="text" name="taiKhoan"id=""><br>
+                <label >Số điện thoại : </label>
+                <input type="phone" name="SDT"id=""><br>
+                <button type="submit" formaction="/login">Quay lại</button> 
+                <button type="submit">Gửi</button>               
+            </form>
+        </div>
+    </div>
+    
+    
+</body>
+</html>
