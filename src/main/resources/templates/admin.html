@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title>Admin</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 
 </head>
@@ -15,30 +15,29 @@
     <!-- Sidebar -->
     <aside class="sidebar" th:fragment="sidebar">
         <div class="logo">
-            <a th:href="@{#}"></a>
+            <a th:href="@{#}">Quản lý thành viên</a>
         </div>
-        <div class="logo">
-            <p>Xin chào, <span th:text="${username}"></span></p>
-        </div>
+		<div class="logo">
 		    <p>Xin chào, <span th:text="${username}"></span></p>
 		</div>
         <ul class="nav-links">
             <li>
-                <a th:href="@{/userThietbi}" target="content-frame">Quản Lý Đặt Chỗ</a>
+                <a th:href="@{/QLThanhVien}" target="content-frame">Thành viên</a>
             </li>
             <li>
-                <a th:href="@{/QLThietBi}" target="content-frame">NULL</a>
+                <a th:href="@{/QLThietBi}" target="content-frame">Thiết bị</a>
             </li>
             <li>
-                <a th:href="@{/QLXuLy}" target="content-frame">NULL</a>
+                <a th:href="@{/QLXuLy}" target="content-frame">Xử lý</a>
             </li>
             <li>
-                <a th:href="@{/ThongKe}" target="content-frame">NULL</a>
+                <a th:href="@{/ThongKe}" target="content-frame">Thống kê</a>
             </li>
         </ul>
         <form action="/logOut">
-            <button class ="logout" type="submit">Log Out</button>
+        	<button class ="logout" type="submit">Log Out</button>        
         </form>
+        
     </aside>
 
     <!-- Main content -->
