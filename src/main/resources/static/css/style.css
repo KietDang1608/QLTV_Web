@@ -55,6 +55,7 @@ body {
 iframe {
     border: 1px solid #ddd; /* Tạo đường viền cho iframe */
 }
+
 .logout{
 	position: absolute;
     bottom: 30px; /* Điều chỉnh khoảng cách từ nút Log Out đến bottom của sidebar */
@@ -63,3 +64,4 @@ iframe {
     border-radius: 10px;
     font-size: 15px;
 }
+
