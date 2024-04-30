@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+<!-- Container chính sử dụng flexbox -->
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar" th:fragment="sidebar">
+        <div class="logo">
+            <a th:href="@{#}"></a>
+        </div>
+        <div class="logo">
+            <p>Xin chào, <span th:text="${username}"></span></p>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a th:href="@{/userThietbi}" target="content-frame">Quản Lý Đặt Chỗ</a>
+            </li>
+            <li>
+                <a th:href="@{/QLThietBi}" target="content-frame">NULL</a>
+            </li>
+            <li>
+                <a th:href="@{/QLXuLy}" target="content-frame">NULL</a>
+            </li>
+            <li>
+                <a th:href="@{/ThongKe}" target="content-frame">NULL</a>
+            </li>
+        </ul>
+        <form action="/logOut">
+            <button class ="logout" type="submit">Log Out</button>
+        </form>
+
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content" th:fragment="main-content">
+        <iframe name="content-frame" src="" width="100%" height="100%">
+            Trình duyệt của bạn không hỗ trợ iframe.
+        </iframe>
+    </main>
+</div>
+</body>
+</html>
