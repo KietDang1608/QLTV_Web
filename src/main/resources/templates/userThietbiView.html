@@ -45,14 +45,41 @@
         <td th:utext="${row.maTB}">...</td>
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
-        <td >  
-            <a th:href="${rowStat.index}" >Mượn</a>  
-            <a th:href="${rowStat.index}">Đặt chỗ</a>  
+        <td >
+            <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Mượn" th:href="${rowStat.index}" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Trả" th:href="${rowStat.index}" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
+            </form>
         </td>
     </tr>
 </table>
 
-    
+<table border="1">
+    <tr>
+        <th>MaTb</th>
+        <th>Thời Gian Cho Mượn </th>
+        <th>Thời Gian Cho Trả</th>
+        <th>Thời Gian Đặt Chỗ</th>
+
+    </tr>
+    <tr th:each ="row : ${data}">
+        <td th:utext="${row.maTB}">...</td>
+        <td th:utext="${row.tenTB}">...</td>
+        <td th:utext="${row.moTa}">...</td>
+    </tr>
+</table>
 
     <script th:inline="javascript">
         function updateSelectedItems() {
