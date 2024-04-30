@@ -20,6 +20,8 @@
         <div class="logo">
             <p>Xin chào, <span th:text="${username}"></span></p>
         </div>
+		    <p>Xin chào, <span th:text="${username}"></span></p>
+		</div>
         <ul class="nav-links">
             <li>
                 <a th:href="@{/userThietbi}" target="content-frame">Quản Lý Đặt Chỗ</a>
@@ -37,7 +39,6 @@
         <form action="/logOut">
             <button class ="logout" type="submit">Log Out</button>
         </form>
-
     </aside>
 
     <!-- Main content -->
