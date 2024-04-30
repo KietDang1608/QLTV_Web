@@ -15,8 +15,11 @@
     <!-- Sidebar -->
     <aside class="sidebar" th:fragment="sidebar">
         <div class="logo">
-            <a th:href="@{/}">Quản lý thành viên</a>
+            <a th:href="@{#}">Quản lý thành viên</a>
         </div>
+		<div class="logo">
+		    <p>Xin chào, <span th:text="${username}"></span></p>
+		</div>
         <ul class="nav-links">
             <li>
                 <a th:href="@{/QLThanhVien}" target="content-frame">Thành viên</a>
@@ -31,6 +34,10 @@
                 <a th:href="@{/ThongKe}" target="content-frame">Thống kê</a>
             </li>
         </ul>
+        <form action="/logOut">
+        	<button class ="logout" type="submit">Log Out</button>        
+        </form>
+        
     </aside>
 
     <!-- Main content -->
