@@ -77,14 +77,12 @@ public class ThongTinSD {
         this.tgTra = tgTra;
     }
 
-    public String getTGDatcho()
-    {
+    public String getTgDatcho() {
         return tgDatcho;
     }
-
-    public void setTGDatcho(String tgDatcho)
-    {
-        this.tgDatcho=tgDatcho;
+    
+    public void setTgDatcho(String tgDatcho) {
+        this.tgDatcho = tgDatcho;
     }
 
     @Override

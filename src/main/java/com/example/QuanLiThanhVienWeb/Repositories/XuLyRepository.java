@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface XuLyRepository extends CrudRepository<XuLy,Long> {
+public interface XuLyRepository extends CrudRepository<XuLy,Integer> {
 }

@@ -1,32 +1,133 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="vi">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+
+    <!-- thư viện ajax jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <title>Danh sách Thành viên</title>
+
+
+
+    <style>
+        /* Sài container liên quan đến ajax  để hiển thị */
+
+        #Thinhtt-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 9999;
+            max-width: 80%;
+            /* Giới hạn chiều rộng của frame */
+            overflow-y: auto;
+            /* Cho phép cuộn nếu nội dung quá dài */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Màu nền mờ */
+            z-index: 9998;
+            /* Đảm bảo lớp overlay hiển thị trên container */
+            display: none;
+            /* Ban đầu ẩn overlay */
+        }
+    </style>
+
 </head>
+
 <body>
-<div>List Thanh Vien</div>
-<table border="1">
-    <tr>
-        <th>MaTV</th>
-        <th>Ho Ten</th>
-        <th>Khoa</th>
-        <th>Nganh</th>
-        <th>SDT</th>
-        <th>Password</th>
-        <th>Email</th>
-    </tr>
-    <tr th:each ="row : ${data}">
-        <td th:utext="${row.maTV}">...</td>
-        <td th:utext="${row.hoTen}">...</td>
-        <td th:utext="${row.khoa}">...</td>
-        <td th:utext="${row.nganh}">...</td>
-        <td th:utext="${row.sdt}">...</td>
-        <td th:utext="${row.password}">...</td>
-        <td th:utext="${row.email}">...</td>
-    </tr>
-</table>
+    <div>Danh sách Thành viên</div>
+
+    <div id="Thinhtt-container"></div>
+    <div class="overlay"></div>
+
+
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Mã TV</th>
+            <th>Họ và Tên</th>
+            <th>Khoa</th>
+            <th>Ngành</th>
+            <th>SĐT</th>
+            <th>Mật khẩu</th>
+            <th>Email</th>
+            <th>Thông tin đặt chổ và mượn thiết bị</th>
+        </tr>
+        <tr th:each="row : ${data}">
+            <td th:utext="${row.maTV}">...</td>
+            <td th:utext="${row.hoTen}">...</td>
+            <td th:utext="${row.khoa}">...</td>
+            <td th:utext="${row.nganh}">...</td>
+            <td th:utext="${row.sdt}">...</td>
+            <td th:utext="${row.password}">...</td>
+            <td th:utext="${row.email}">...</td>
+            <td>
+                <a class="form-tt" th:href="@{/thanhvien/{maTV}/thong-tin-dat-cho(maTV=${row.maTV})}">Xem</a>
+
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        $(document).ready(function () {
+            $("a.form-tt").click(function (e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                $.ajax({
+                    url: href,
+                    method: 'GET',
+                    success: function (data) {
+                        var $thongTinDatCho = $(data).filter("#thong-tin-dat-cho");
+                        $("#Thinhtt-container").html($thongTinDatCho.html()).show();
+                        $(".overlay").show(); // Hiển thị overlay
+
+
+                        $("#closeContainer").click(function () {
+                            $('#Thinhtt-container').hide();
+                            $(".overlay").hide();
+                        });
+                    }
+                });
+
+
+            });
+
+
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#Thinhtt-container').length) {
+                    $('#Thinhtt-container').hide();
+                    $(".overlay").hide();
+                }
+            });
+
+        });
+    </script>
+
+
+
+
 </body>
+
 </html>

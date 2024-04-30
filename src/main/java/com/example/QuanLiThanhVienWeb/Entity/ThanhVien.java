@@ -1,10 +1,13 @@
 package com.example.QuanLiThanhVienWeb.Entity;
+
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity(name = "ThanhVien")
 @Table(name = "thanhvien")
-public class ThanhVien {
 
+public class ThanhVien {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int maTV;
@@ -110,5 +113,7 @@ public class ThanhVien {
                 + ", email=" + email
                 + '}';
     }
-}
 
+
+    
+}
