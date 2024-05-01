@@ -1,9 +1,12 @@
 package com.example.QuanLiThanhVienWeb.Controller;
 
 import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
+import com.example.QuanLiThanhVienWeb.Entity.ThietBi;
 import com.example.QuanLiThanhVienWeb.Entity.ThongTinSD;
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
+import com.example.QuanLiThanhVienWeb.Repositories.ThietBiRepository;
 import com.example.QuanLiThanhVienWeb.Repositories.ThongTinSDRepository;
+import com.example.QuanLiThanhVienWeb.Repositories.XuLyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +25,17 @@ import java.util.Optional;
 public class ThongKeController {
     @Autowired
     private ThongTinSDRepository ttRe;
-
+    @Autowired
+    private ThietBiRepository tbRe;
+    @Autowired
+    private XuLyRepository xlRe;
+    
     @Autowired ThanhVienRepository tvRe;
     @RequestMapping("/ThongKe")
     public String toThongKe(){
         return "ThongKeView";
     }
+
     @GetMapping("/ThongKe/TKTTSD")
     public String TKVaoKVHTAll(Model m){
         ArrayList<ThongTinSD> dsvao = getDSVAO();
@@ -45,6 +53,21 @@ public class ThongKeController {
         m.addAttribute("cbKhoa",getDSKhoa());
         m.addAttribute("cbNganh",getDSNganh());
         return "ThongKeTTSDView";
+    }
+    @GetMapping("/ThongKe/TKTB")
+    public String TKThietBiMuonALL(Model m){
+        ArrayList<ThongTinSD> dsmtb = getDSMTB();
+        ArrayList<ArrayList<String>> listData = new ArrayList<>();
+        for (ThongTinSD tt:dsmtb){
+            ArrayList<String> e = new ArrayList<>();
+            e.add(String.valueOf(tt.getMaTB()));
+            e.add(getNameTBByID(tt.getMaTB()));
+            e.add(getMoTaByID(tt.getMaTB()));
+            e.add(tt.getTgMuon());
+            listData.add(e);
+        }
+        m.addAttribute("data",listData);
+        return "ThongKeTBDMView";
     }
 
     @PostMapping("/ThongKe/TKTTSD/searchTKTTSD")
@@ -76,7 +99,30 @@ public class ThongKeController {
         model.addAttribute("cbnganh",nganh);
         return "ThongKeTTSDView"; // Trang hiển thị kết quả
     }
+    @PostMapping("/ThongKe/TKTB/searchTKTB")
+    public String handleSeachSubmitTB(
+            @RequestParam("ngaybd") String ngaybd,
+            @RequestParam("ngaykt") String ngaykt,
 
+            Model model) {
+
+        // Xử lý giá trị được chọn
+        ArrayList<ThongTinSD> lstFound = loctheongaymuon(ngaybd,ngaykt);
+        ArrayList<ArrayList<String>> listData = new ArrayList<>();
+        for (ThongTinSD tt:lstFound){
+            ArrayList<String> e = new ArrayList<>();
+            e.add(String.valueOf(tt.getMaTB()));
+            e.add(getNameTBByID(tt.getMaTB()));
+            e.add(getMoTaByID(tt.getMaTB()));
+            e.add(tt.getTgMuon());
+            listData.add(e);
+        }
+        model.addAttribute("data",listData);
+        model.addAttribute("ngaybd",ngaybd);
+        model.addAttribute("ngaykt",ngaykt);
+
+        return "ThongKeTBDMView"; // Trang hiển thị kết quả
+    }
 
     private ArrayList<ThongTinSD> getDSTVByStart(String startDateTime){
         //Datetime: yyyy-mm-ddThh:mm
@@ -90,6 +136,25 @@ public class ThongKeController {
         for (ThongTinSD tt: ttRe.findAll()){
             if (tt.getTgVao() != null) {
                 LocalDateTime dt = LocalDateTime.parse(tt.getTgVao(),formatter);
+                if (dt.isEqual(datetimeStart) || dt.isAfter(datetimeStart)) {
+                    lstFound.add(tt);
+                }
+            }
+        }
+        return lstFound;
+    }
+    private ArrayList<ThongTinSD> getDSTBByStart(String startDateTime){
+        //Datetime: yyyy-mm-ddThh:mm
+
+        ArrayList<ThongTinSD> lstFound = new ArrayList<>();
+        LocalDateTime dateTime = LocalDateTime.parse(startDateTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = dateTime.format(formatter);
+        LocalDateTime datetimeStart = LocalDateTime.parse(formattedDateTime,formatter);
+
+        for (ThongTinSD tt: ttRe.findAll()){
+            if (tt.getTgMuon() != null) {
+                LocalDateTime dt = LocalDateTime.parse(tt.getTgMuon(),formatter);
                 if (dt.isEqual(datetimeStart) || dt.isAfter(datetimeStart)) {
                     lstFound.add(tt);
                 }
@@ -113,6 +178,22 @@ public class ThongKeController {
         }
         return lstFound;
     }
+    private ArrayList<ThongTinSD> getDSTBByEnd(String endDateTime){
+        ArrayList<ThongTinSD> lstFound = new ArrayList<>();
+        LocalDateTime dateTime = LocalDateTime.parse(endDateTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = dateTime.format(formatter);
+        LocalDateTime datetimeEnd = LocalDateTime.parse(formattedDateTime,formatter);
+        for (ThongTinSD tt: ttRe.findAll()){
+            if (tt.getTgMuon() != null) {
+                LocalDateTime dt = LocalDateTime.parse(tt.getTgMuon(),formatter);
+                if (dt.isEqual(datetimeEnd) || dt.isBefore(datetimeEnd)) {
+                    lstFound.add(tt);
+                }
+            }
+        }
+        return lstFound;
+    }
     private ArrayList<ThongTinSD> getDSVAO(){
         ArrayList<ThongTinSD> lstFound = new ArrayList<>();
         for (ThongTinSD tt: ttRe.findAll()){
@@ -122,6 +203,16 @@ public class ThongKeController {
         }
         return  lstFound;
     }
+    private ArrayList<ThongTinSD> getDSMTB(){
+        ArrayList<ThongTinSD> lstFound = new ArrayList<>();
+        for (ThongTinSD tt: ttRe.findAll()){
+            if (tt.getTgMuon() != null){
+                lstFound.add(tt);
+            }
+        }
+        return  lstFound;
+    }
+
     private ArrayList<ThongTinSD> getDSThanhVienByKhoa(String khoa){
         ArrayList<ThongTinSD> lstFound = new ArrayList<>();
         for (ThongTinSD tt: ttRe.findAll()){
@@ -175,6 +266,13 @@ public class ThongKeController {
         }
         return "";
     }
+    private String getNameTBByID(int id){
+        for (ThietBi tb : tbRe.findAll()){
+            if (tb.getMaTB() == id)
+                return tb.getTenTB();
+        }
+        return "";
+    }
     private String getKhoaByID(int id){
         for (ThanhVien tt : tvRe.findAll()){
             if (tt.getMaTV() == id)
@@ -186,6 +284,14 @@ public class ThongKeController {
         for (ThanhVien tt : tvRe.findAll()){
             if (tt.getMaTV() == id)
                 return tt.getNganh();
+        }
+        return "";
+    }
+
+    private String getMoTaByID(int id){
+        for (ThietBi tb : tbRe.findAll()){
+            if (tb.getMaTB() == id)
+                return tb.getMoTa();
         }
         return "";
     }
@@ -227,5 +333,20 @@ public class ThongKeController {
         }
         for (ThongTinSD tt : theoNganh) System.out.println(tt.toString());
         return layPhanGiao(theoNgayBD,theoNgayKT,theoKhoa,theoNganh);
+
+    }
+    public ArrayList<ThongTinSD> loctheongaymuon(String ngaybd, String ngaykt){
+        ArrayList<ThongTinSD> theoNgayBD = getDSMTB();
+        ArrayList<ThongTinSD> theoNgayKT =  getDSMTB();
+        if (!ngaybd.equals("")){
+            theoNgayBD = new ArrayList<>();
+            theoNgayBD = getDSTBByStart(ngaybd);
+        }
+        if (!ngaykt.equals("")){
+            theoNgayKT = new ArrayList<>();
+            theoNgayKT = getDSTBByEnd(ngaykt);
+        }
+//        for (ThongTinSD tt : theoNganh) System.out.println(tt.toString());
+        return layPhanGiao(theoNgayBD,theoNgayKT);
     }
 }
