@@ -27,10 +27,15 @@
     <button type="submit">Lọc</button>
 </form>
 <br>
-<form action="/QLThietBi/deleteSelected" method="post" id="deleteForm">
-    <input type="hidden" id="selectedItems" name="selectedItems">
-    <input type="submit" value="Delete Selected" onclick="return updateSelectedItems()">
+<form th:action="@{/QLDatCho/searchTBbyName}" method="post">
+	Search:
+	<input type="text" name="search"/>
+	<button type="submit">Tìm</button>
 </form>
+<form th:action="@{/QLDatCho/refresh}" method="post">
+	<button type="submit">Refresh</button>
+</form>
+<br>
 
 <div>List Thiet Bi</div>
 

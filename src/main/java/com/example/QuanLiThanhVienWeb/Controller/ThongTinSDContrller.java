@@ -19,11 +19,14 @@ import java.util.ArrayList;
 
 @Controller
 public class ThongTinSDContrller {
+	
 
     @Autowired
     private ThongTinSDRepository ttsdRepository;
     @Autowired
     private ThietBiRepository tbRepository;
+    @Autowired
+    private ThietBiRepository tbRe;
 
     private static ArrayList<ThongTinSDContrller> list = new ArrayList();
     private static ArrayList<ThietBi> listTB = new ArrayList();
@@ -71,5 +74,31 @@ public class ThongTinSDContrller {
         } else {
             return "failed";
         }
+    }
+    
+    @PostMapping("/QLDatCho/searchTBbyName")
+    public String handleSeachSubmit(
+        @RequestParam("search") String search,
+            Model model) {
+                ArrayList<ThietBi> lstFound = new ArrayList<>();
+                for(ThietBi tb: tbRe.findAll()) {
+                	if(tb.getTenTB().contains(search)) {
+                		lstFound.add(tb);
+                	}
+                }
+            
+        model.addAttribute("data",lstFound);
+        model.addAttribute("search",search);
+        
+        return "userThietbiView"; // Trang hiển thị kết quả
+    }
+    @PostMapping("/QLDatCho/refresh")
+    public String rf(Model model) {
+    			Iterable<ThietBi> lstFound = tbRe.findAll();
+                listTB =(ArrayList<ThietBi>) lstFound;
+            
+        model.addAttribute("data",lstFound);
+        
+        return "userThietbiView"; // Trang hiển thị kết quả
     }
 }
