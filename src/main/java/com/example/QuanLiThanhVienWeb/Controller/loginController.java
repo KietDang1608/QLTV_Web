@@ -15,9 +15,7 @@ import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
 
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
 
-import com.example.QuanLiThanhVienWeb.Entity.User;
-import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
-import com.example.QuanLiThanhVienWeb.Repositories.UserRepository;
+
 
 //import com.example.QuanLiThanhVienWeb.Repositories.userRepositoryImplement;
 
