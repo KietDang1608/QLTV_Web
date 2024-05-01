@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    background-color: #000
+}
+
+.card {
+    width: 850px;
+    background-color: #efefef;
+    border: none;
+    /* cursor: pointer; */
+    transition: all 0.5s;
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.btn {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+.name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.idd1 {
+    font-size: 12px
+}
+
+.number {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+.btn1 {
+    height: 40px;
+    width: 150px;
+    border: none;
+    background-color: #000;
+    color: #aeaeae;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.btn1:hover {
+    transition: all 0.25s;
+    transform: scale(1.15);
+}
+
+.btn1:not(:hover) {
+    transition: all 0.25s;
+}
+
+.text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+.icons i {
+    font-size: 19px
+}
+
+hr .new1 {
+    border: 1px solid
+}
+
+.join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+.viPham {
+    background-color: #ccc;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s;
+}
+
+.viPham:hover{
+    background-color: #000000;
+    transition: all 0.5s;
+    transform: scale(1.03);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info label {
+    font-weight: bold;
+}
+
+.profile-info p {
+    margin: 5px 0;
+}
+
+.violation-info {
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.violation-info label {
+    margin-left: 20px;
+    font-weight: bold;
+    width: 150px;
+    display: inline-block;
+}
+
+.violation-info span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.violation-info:hover {
+    transition: all 0.5s;
+    transform: scale(1.05);
+}
