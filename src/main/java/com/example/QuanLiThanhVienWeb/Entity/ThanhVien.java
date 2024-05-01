@@ -29,6 +29,7 @@ public class ThanhVien {
         this.khoa = khoa;
         this.nganh = nganh;
         this.sdt = sdt;
+        this.password = password;
         this.email = email;
     }
 
