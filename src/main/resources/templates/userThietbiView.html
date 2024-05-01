@@ -27,10 +27,15 @@
     <button type="submit">Lọc</button>
 </form>
 <br>
-<form action="/QLThietBi/deleteSelected" method="post" id="deleteForm">
-    <input type="hidden" id="selectedItems" name="selectedItems">
-    <input type="submit" value="Delete Selected" onclick="return updateSelectedItems()">
+<form th:action="@{/QLDatCho/searchTBbyName}" method="post">
+	Search:
+	<input type="text" name="search"/>
+	<button type="submit">Tìm</button>
 </form>
+<form th:action="@{/QLDatCho/refresh}" method="post">
+	<button type="submit">Refresh</button>
+</form>
+<br>
 
 <div>List Thiet Bi</div>
 
@@ -45,14 +50,41 @@
         <td th:utext="${row.maTB}">...</td>
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
-        <td >  
-            <a th:href="${rowStat.index}" >Mượn</a>  
-            <a th:href="${rowStat.index}">Đặt chỗ</a>  
+        <td >
+            <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Mượn" th:href="${rowStat.index}" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Trả" th:href="${rowStat.index}" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
+            </form>
         </td>
     </tr>
 </table>
 
-    
+<table border="1">
+    <tr>
+        <th>MaTb</th>
+        <th>Thời Gian Cho Mượn </th>
+        <th>Thời Gian Cho Trả</th>
+        <th>Thời Gian Đặt Chỗ</th>
+
+    </tr>
+    <tr th:each ="row : ${data}">
+        <td th:utext="${row.maTB}">...</td>
+        <td th:utext="${row.tenTB}">...</td>
+        <td th:utext="${row.moTa}">...</td>
+    </tr>
+</table>
 
     <script th:inline="javascript">
         function updateSelectedItems() {

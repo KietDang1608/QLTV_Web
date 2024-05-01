@@ -26,8 +26,20 @@ public class ThongTinSD {
         this.tgDatcho=tgDatcho;
     }
 
+    public ThongTinSD(Integer maTB, String tgMuon) {
+        this.maTB = maTB;
+        this.tgMuon = tgMuon;
+    }
+
+    public ThongTinSD(Integer maTB, String tgMuon, String tgDatcho) {
+        this.maTB = maTB;
+        this.tgMuon = tgMuon;
+        this.tgDatcho = tgDatcho;
+    }
+
     public ThongTinSD() {
     }
+
 
     public int getMaTT() {
         return maTT;
