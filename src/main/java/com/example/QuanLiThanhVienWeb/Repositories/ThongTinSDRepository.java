@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public interface ThongTinSDRepository extends CrudRepository<ThongTinSD,Integer> {
@@ -22,4 +24,8 @@ public interface ThongTinSDRepository extends CrudRepository<ThongTinSD,Integer>
 
     @Query("SELECT ttsd FROM ThongTinSD ttsd WHERE ttsd.maTV = ?1 and ttsd.tgDatcho is not null")
     public Boolean findByTGMuonIsNotNull(Integer maTV);
+
+    @Query("SELECT t FROM ThongTinSD t WHERE FUNCTION('TIME_FORMAT', SUBSTRING(t.tgDatcho, 12, 8), '%H:%i:%s') < :oneHourAgo AND FUNCTION('DATE_FORMAT', SUBSTRING(t.tgDatcho, 1, 10), '%Y-%m-%d') = CURRENT_DATE()")
+    public ArrayList<ThongTinSD> findDatChoAfter1Hour(String oneHourAgo);
+
 }

@@ -27,6 +27,8 @@ public class ThongTinSDContrller {
     private ThietBiRepository tbRepository;
     @Autowired
     private ThietBiRepository tbRe;
+    @Autowired
+    private ScheduledTasks service;
 
     private static ArrayList<ThongTinSDContrller> list = new ArrayList();
     private static ArrayList<ThietBi> listTB = new ArrayList();
@@ -42,6 +44,10 @@ public class ThongTinSDContrller {
         listTB = (ArrayList<ThietBi>) list;
         m.addAttribute("data", listTB);
         return "userThietbiView";
+    }
+
+    public void deleteDatChoAfter1Hour() {
+        service.findDatChoAfter1HourSerVice();
     }
 
     @RequestMapping(value = {"datcho"}, method = RequestMethod.POST)
@@ -70,10 +76,11 @@ public class ThongTinSDContrller {
             ttsdRepository.save(ttsd);
             Iterable<ThongTinSD> list = ttsdRepository.findAll();
             model.addAttribute("list", list);
-            return "success";
+
         } else {
-            return "failed";
+            System.out.println("khong the dat cho luc nay");
         }
+        return "userThietbiView";
     }
     
     @PostMapping("/QLDatCho/searchTBbyName")
