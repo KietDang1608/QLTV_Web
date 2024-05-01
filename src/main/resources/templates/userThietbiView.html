@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -39,29 +39,20 @@
         <th>MaTb</th>
         <th>TenTB</th>
         <th>MotaTB</th>
-
-        <th>Chức năng</th>
-        <th>Select</th>
+        <th>Xử lý</th>
     </tr>
     <tr th:each ="row : ${data}">
         <td th:utext="${row.maTB}">...</td>
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
-
         <td >  
-            <a th:href="'/QLThietBi/edit/'+ ${rowStat.index}" >Edit</a>  
-            <a th:href="'/QLThietBi/delete/'+ ${rowStat.index}">Delete</a>  
-        </td>
-        <td>
-            <input type="checkbox" th:id="'checkbox_' + ${rowStat.index}" name="selectedItems" th:value="${row.maTB}" onchange="updateSelectedItems()">
+            <a th:href="${rowStat.index}" >Mượn</a>  
+            <a th:href="${rowStat.index}">Đặt chỗ</a>  
         </td>
     </tr>
 </table>
-<p><a href="/addTB">Thêm thiết bị</p>
-    <form action="/importExcel" method="post" enctype="multipart/form-data">
-        <input type="file" name="excelFile" id="excelFile" accept=".xls,.xlsx">
-        <button type="submit">Import Excel</button>
-    </form> 
+
+    
 
     <script th:inline="javascript">
         function updateSelectedItems() {
@@ -77,10 +68,12 @@
                 alert("Please select at least one item.");
                 return false; // Ngăn form được gửi đi
             }
-            //console.log(selectedItems);
+            console.log(selectedItems);
         }
     </script>
 
+    </tr>
+</table>
 
 </body>
 </html>

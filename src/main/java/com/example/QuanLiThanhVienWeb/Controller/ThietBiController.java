@@ -44,8 +44,8 @@ import com.example.QuanLiThanhVienWeb.Repositories.ThietBiRepository;
 public class ThietBiController {
     @Autowired
     private ThietBiRepository tbRe;
-
     private static ArrayList<ThietBi> listTB = new ArrayList();
+
     @RequestMapping("/QLThietBi")
     public String toThietBi(){
         return "ThietBiView";
