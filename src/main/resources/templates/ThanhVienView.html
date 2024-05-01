@@ -1,32 +1,205 @@
 <!doctype html>
+<<<<<<< HEAD
+<html lang="en">
+<head>
+=======
 <html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+>>>>>>> 7a680b4aec5719395502b85fd98e4db99b18e606
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            cursor: default;
+        }
+        /* Custom CSS */
+        .titleContainer {
+            text-align: center;
+            border: 1px solid rgb(200, 200, 200);
+            border-radius: 5px;
+            margin-block: 10px 20px;
+            padding-block:20px 10px;
+        }
+        /* Alternating row colors */
+        .table-striped-custom tbody tr:nth-of-type(odd) {
+            background-color: #ffffff; /* white */
+        }
+        .table-striped-custom tbody tr:nth-of-type(even) {
+            background-color: #f8f9fa; /* slightly darker */
+        }
+        /* Make buttons smaller */
+        .btn-sm {
+            width: 100px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            margin-block: 0px 5px;
+        }
+        .searchForm {
+            margin-block: 10px 10px;
+            width: 100%;
+            border: 1px solid rgb(200, 200, 200);
+            border-radius: 5px;
+            padding: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .searchForm input[type="text"] {
+            width: 500px;
+            padding: 5px;
+            border: 1px solid rgb(200, 200, 200);
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: small;
+        }
+        .searchForm input[type="submit"] {
+            padding: 5px;
+            border: 1px solid rgb(200, 200, 200);
+            border-radius: 5px;
+            font-size: small;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+        }
+        .searchForm input[type="submit"]:hover {
+            background-color: rgb(150, 150, 150);
+            padding-inline: 10px;
+        }
+        .searchForm select {
+            padding: 5px;
+            border: 1px solid rgb(200, 200, 200);
+            border-radius: 5px;
+            font-size: small;
+        }
+        .searchForm option {
+            font-size: small;
+        }
+        td{
+            font-size: small !important;
+            
+        }
+        td div{
+            width: 100px !important;
+        }
+        .customizedButton{
+            width: 200px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            margin-block: 0px 5px;
+        }
+        .customizedButton a, input{
+            text-decoration: none;
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            padding-inline:15px;
+            transition: all 0.3s ease-out;
+        }
+        .customizedButton a:hover,input[type="submit"]:hover{
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-<div>List Thanh Vien</div>
-<table border="1">
-    <tr>
-        <th>MaTV</th>
-        <th>Ho Ten</th>
-        <th>Khoa</th>
-        <th>Nganh</th>
-        <th>SDT</th>
-        <th>Password</th>
-        <th>Email</th>
-    </tr>
-    <tr th:each ="row : ${data}">
-        <td th:utext="${row.maTV}">...</td>
-        <td th:utext="${row.hoTen}">...</td>
-        <td th:utext="${row.khoa}">...</td>
-        <td th:utext="${row.nganh}">...</td>
-        <td th:utext="${row.sdt}">...</td>
-        <td th:utext="${row.password}">...</td>
-        <td th:utext="${row.email}">...</td>
-    </tr>
-</table>
+<div class="container">
+    <div class="titleContainer">
+        <h2>QUẢN LÝ THÀNH VIÊN</h2>
+    </div>
+    <p>- Tìm kiếm thành viên:</p>
+    <form class="searchForm" th:action="@{/QLThanhVien/searchTV}" method="post">
+        
+        <select name="searchBy" id="searchBy">
+            <option th:value="all">Tất cả</option>
+            <option th:value="maTV">Mã thành viên</option>
+            <option th:value="hoTen">Họ tên</option>
+            <option th:value="khoa">Khoa</option>
+            <option th:value="nganh">Ngành</option>
+            <option th:value="sdt">Số điện thoại</option>
+            <option th:value="email">Email</option>
+        </select>
+        <div>
+            <input type="text" placeholder="Search.." name="searchText">
+            <input type="submit" value="Search">
+        </div>
+    </form>
+    
+    <div class="btn-group">
+    <div class="customizedButton"><a href="/addTV">Thêm thành viên</a></div>
+    <form action="/QLThanhVien/deleteSelectedTV" method="post" id="deleteForm">
+        <input type="hidden" id="selectedItems" name="selectedItems">
+        <input class="customizedButton" type="submit" value="Xóa theo nhóm" onclick="return updateSelectedItems()">
+    </form>
+    </div>
+
+    <table class="table table-bordered table-striped table-striped-custom">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã TV</th>
+                <th>Họ tên</th>
+                <th>Khoa</th>
+                <th>Ngành</th>
+                <th>SĐT</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th style="width: 100px;">Thao tác</th>
+                <th>x</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row : ${data}">
+                <td th:utext="${row.maTV}"      class="align-middle">...</td>
+                <td th:utext="${row.hoTen}"     class="align-middle">...</td>
+                <td th:utext="${row.khoa}"      class="align-middle">...</td>
+                <td th:utext="${row.nganh}"     class="align-middle">...</td>
+                <td th:utext="${row.sdt}"       class="align-middle">...</td>
+                <td th:utext="${row.password}"  class="align-middle">...</td>
+                <td th:utext="${row.email}"     class="align-middle">...</td>
+                <td class="align-middle">
+                    <div class="btn-group d-flex justify-content-center">
+                        <a class="btn btn-primary btn-sm" 
+                        th:href="'/QLThanhVien/edit/'+ ${rowStat.index}">Edit</a>
+                        <a class="btn btn-danger btn-sm" 
+                        th:href="'/QLThanhVien/deleteTV/'+ ${rowStat.index}"
+                    onclick="return confirm('Vui lòng xác nhận thao tác trước khi xóa.')" >
+                            Delete
+                        </a>
+                    </div>
+                </td>
+                <td class="align-middle">
+                    <input type="checkbox" th:id="'checkbox_' + ${rowStat.index}" name="selectedItems" th:value="${row.maTV}" onchange="updateSelectedItems()">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
+</script>
+<script th:inline="javascript">
+    function updateSelectedItems() {
+        var selectedItems = [];
+        var checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+        checkboxes.forEach(function(checkbox) {
+            selectedItems.push(checkbox.value); // This line collects the values of checked checkboxes
+        });
+        var selectedItemsField = document.getElementById('selectedItems');
+        if (selectedItems.length > 0) {
+            selectedItemsField.value = selectedItems.join(',');
+        } else {
+            alert("Vui lòng chọn ít nhất một thành viên.");
+            return false; // Prevent form submission if no items are selected
+        }
+        console.log(selectedItems);
+    }
+</script>
+
 </body>
 </html>
