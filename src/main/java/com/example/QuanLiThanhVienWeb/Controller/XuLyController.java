@@ -20,5 +20,4 @@ public class XuLyController {
         m.addAttribute("data",list);
         return "XuLyView";
     }
-
 }
