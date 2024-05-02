@@ -51,13 +51,13 @@
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
         <td >
-            <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
+            <form action="#" th:object="${data}" th:action="@{muon}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
                 <input type="submit" value="Mượn" th:href="${rowStat.index}" >
             </form>
         </td>
         <td>
-            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+            <form action="#" th:object="${data}" th:action="@{tra}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
                 <input type="submit" value="Trả" th:href="${rowStat.index}" >
             </form>
