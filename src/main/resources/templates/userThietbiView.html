@@ -53,18 +53,21 @@
         <td >
             <form action="#" th:object="${data}" th:action="@{muon}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
                 <input type="submit" value="Mượn" th:href="${rowStat.index}" >
             </form>
         </td>
         <td>
             <form action="#" th:object="${data}" th:action="@{tra}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
                 <input type="submit" value="Trả" th:href="${rowStat.index}" >
             </form>
         </td>
         <td>
             <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
                 <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
             </form>
         </td>

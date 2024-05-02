@@ -46,7 +46,10 @@ public class ThongTinSDContrller {
     public String getAllThietBi(Model m) {
         Iterable<ThietBi> list = tbRepository.findAll();
         listTB = (ArrayList<ThietBi>) list;
+        Iterable<ThongTinSD> list_tt = ttsdRepository.findAll();
+        listTT = (ArrayList<ThongTinSD>) list_tt;
         m.addAttribute("data", listTB);
+        m.addAttribute("data_TT", listTT);
         return "userThietbiView";
     }
 
@@ -56,7 +59,7 @@ public class ThongTinSDContrller {
 
     @RequestMapping(value = {"datcho"}, method = RequestMethod.POST)
     public String saveDatCho(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
-    @RequestParam("maTB") int maTB) {
+    @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
 
         //Kiểm tra thiết bị có đang cho mượn hoặc đặt chỗ không
         if (!isDatChoByMaTB(maTB)){
@@ -71,7 +74,7 @@ public class ThongTinSDContrller {
 
             //ttsd.setMaTB(maTB);
             //ThongTinSD last= getLastTBByMaLoai(maLoaiTB);
-            ttsd = new ThongTinSD(maTB, tg_muon, tg_datcho);
+            ttsd = new ThongTinSD(maTV, maTB, tg_muon, tg_datcho);
             ttsdRepository.save(ttsd);
             Iterable<ThongTinSD> list = ttsdRepository.findAll();
             model.addAttribute("list", list);
@@ -88,9 +91,18 @@ public class ThongTinSDContrller {
     @RequestMapping(value = {"muon"}, method = RequestMethod.POST)
     public String saveMuon(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
     @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
-        if (checkMuon(maTV, maTB)) { //thiết bị chưa được mượn bao giờ hoặc đã được mượn và hiện đang trống
+        int index = findIndexOfTTSD(maTV, maTB);
+        //Nếu đang đặt chỗ thì cập nhật trong db
+        if (isDatChoYourSelf(maTV, maTB) && index > 0){
+            ttsd = listTT.get(index);
             ttsd.setTgMuon(takeCurrentDay());
-            ttsd = new ThongTinSD(maTB, ttsd.getTgMuon());
+            listTT.set(index, ttsd);
+            ttsdRepository.save(ttsd);
+        } else if (checkMuon(maTB)){
+            //Nếu thiết bị ko có ai đang đặt hoặc mượn
+            //thì thêm dòng mới vào csdl
+            ttsd.setTgMuon(takeCurrentDay());
+            ttsd = new ThongTinSD(maTV, maTB, ttsd.getTgMuon());
             ttsdRepository.save(ttsd);
         } else {
             System.out.println("khong the muon luc nay");
@@ -99,7 +111,21 @@ public class ThongTinSDContrller {
     }
 
     //Hàm trả thiết bị
-
+    @RequestMapping(value = {"tra"}, method = RequestMethod.POST)
+    public String saveTra(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
+    @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
+        int index = findIndexOfTTSD(maTV, maTB);
+        //Nếu đang đặt chỗ thì cập nhật trong db
+        if (checkTra(maTV, maTB) && index > 0){
+            ttsd = listTT.get(index);
+            ttsd.setTgTra(takeCurrentDay());
+            listTT.set(index, ttsd);
+            ttsdRepository.save(ttsd);
+        }else {
+            System.out.println("Ban khong muon thiet bi nay");
+        }
+        return "userThietbiView";
+    }
 
     @PostMapping("/QLDatCho/searchTBbyName")
     public String handleSeachSubmit(
@@ -139,16 +165,33 @@ public class ThongTinSDContrller {
         return false;
     }
 
-    public boolean checkMuon(Integer maTV, Integer maTB) {
+    private int findIndexOfTTSD(int maTV, int maTB) {
+        for (int i = 0; i < listTT.size(); i++) {
+            if (listTT.get(i).getMaTV() == maTV && listTT.get(i).getMaTB() == maTB){
+                System.out.println("MaTV va MaTB: " + maTV + " " + maTB);
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isDatChoYourSelf(Integer maTV, Integer maTB){
+        //mình đang đặt chỗ
+        for (ThongTinSD tt : ttsdRepository.findAll()){
+            if (tt.getMaTV() == maTV && tt.getMaTB() == maTB && tt.getTGDatcho() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkMuon(Integer maTB) {
         for (ThongTinSD tt : ttsdRepository.findAll()) {
             if (tt.getMaTB() == maTB){
-                //mình đang đặt chỗ
-                if (tt.getMaTV() == maTV && tt.getTGDatcho() != null) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTgMuon(), formatter);
-                    if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)))
-                        return true;
-                } else if (isDatChoByMaTB(maTB) || (tt.getTgMuon() != null && tt.getTgTra() == null)) {
+                if (isDatChoByMaTB(maTB) || (tt.getTgMuon() != null && tt.getTgTra() == null)) {
                     // có ai đang đặt chỗ hoặc đang mượn
                     // thì ko được mượn
                     return false;
@@ -157,6 +200,17 @@ public class ThongTinSDContrller {
         }
         //Thiết bị đang trống có thể mượn
         return true;
+    }
+
+    public boolean checkTra(Integer maTV, Integer maTB){
+        for (ThongTinSD tt : ttsdRepository.findAll()) {
+            if (tt.getMaTV() == maTV && tt.getMaTB() == maTB){
+                if (tt.getTgMuon() != null && tt.getTgTra() == null) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
