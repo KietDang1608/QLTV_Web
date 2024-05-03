@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 @Controller
@@ -43,13 +44,33 @@ public class ThongTinSDContrller {
     }
 
     @GetMapping("/userThietbi")
-    public String getAllThietBi(Model m) {
+    public String getAllThietBi(Model m, @RequestParam("maTV") int maTV) {
         Iterable<ThietBi> list = tbRepository.findAll();
         listTB = (ArrayList<ThietBi>) list;
-        Iterable<ThongTinSD> list_tt = ttsdRepository.findAll();
-        listTT = (ArrayList<ThongTinSD>) list_tt;
         m.addAttribute("data", listTB);
-        m.addAttribute("data_TT", listTT);
+
+        Iterable<ThongTinSD> list_T = ttsdRepository.findAll();
+        listTT = (ArrayList<ThongTinSD>) list_T;
+        m.addAttribute("data_T", listTT);
+
+        ArrayList<ThongTinSD> listTT_datcho = new ArrayList();
+        ArrayList<ThongTinSD> listTT_muon = new ArrayList();
+        for (ThongTinSD tt : listTT){
+            if (tt.getMaTV() == maTV){
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                //Dang Dat Cho
+                if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)) && tt.getTgMuon() == null)
+                    listTT_datcho.add(tt);
+
+                //Dang Muon
+                if (tt.getMaTV() == maTV && tt.getTgMuon() != null && tt.getTgTra() == null)
+                    listTT_muon.add(tt);
+            }
+        }
+        m.addAttribute("dataTT_datcho", listTT_datcho);
+        m.addAttribute("dataTT_muon", listTT_muon);
+        System.out.println("listTT_muon: " + listTT_muon);
         return "userThietbiView";
     }
 
@@ -69,20 +90,19 @@ public class ThongTinSDContrller {
             String tg_datcho = ttsd.getTGDatcho();
             System.out.println(tg_datcho);
 
-            ttsd.setTgMuon("null");
+            ttsd.setTgMuon(null);
             String tg_muon = ttsd.getTgMuon();
 
             //ttsd.setMaTB(maTB);
             //ThongTinSD last= getLastTBByMaLoai(maLoaiTB);
             ttsd = new ThongTinSD(maTV, maTB, tg_muon, tg_datcho);
             ttsdRepository.save(ttsd);
-            Iterable<ThongTinSD> list = ttsdRepository.findAll();
-            model.addAttribute("list", list);
-
+            //        Iterable<ThongTinSD> list = ttsdRepository.findAll();
+            //        model.addAttribute("data", list);
         } else {
             System.out.println("khong the dat cho luc nay");
         }
-        return "userThietbiView";
+        return "redirect:/userThietbi?maTV=" + maTV;
     }
 
 
@@ -91,11 +111,13 @@ public class ThongTinSDContrller {
     @RequestMapping(value = {"muon"}, method = RequestMethod.POST)
     public String saveMuon(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
     @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
-        int index = findIndexOfTTSD(maTV, maTB);
+        int index = findIndexOfTTSD(maTV, maTB, "Muon");
+        System.out.println("index: " + index);
         //Nếu đang đặt chỗ thì cập nhật trong db
-        if (isDatChoYourSelf(maTV, maTB) && index > 0){
+        if (isDatChoYourSelf(maTV, maTB) && index >= 0){
             ttsd = listTT.get(index);
             ttsd.setTgMuon(takeCurrentDay());
+            System.out.println(ttsd.getTgMuon());
             listTT.set(index, ttsd);
             ttsdRepository.save(ttsd);
         } else if (checkMuon(maTB)){
@@ -107,16 +129,17 @@ public class ThongTinSDContrller {
         } else {
             System.out.println("khong the muon luc nay");
         }
-        return "userThietbiView";
+        return "redirect:/userThietbi?maTV=" + maTV;
     }
 
     //Hàm trả thiết bị
     @RequestMapping(value = {"tra"}, method = RequestMethod.POST)
     public String saveTra(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
     @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
-        int index = findIndexOfTTSD(maTV, maTB);
+        int index = findIndexOfTTSD(maTV, maTB, "Tra");
+        System.out.println("maTV: " + maTV + " maTB: " + maTB + " index: " + index);
         //Nếu đang đặt chỗ thì cập nhật trong db
-        if (checkTra(maTV, maTB) && index > 0){
+        if (checkTra(maTV, maTB) && index >= 0){
             ttsd = listTT.get(index);
             ttsd.setTgTra(takeCurrentDay());
             listTT.set(index, ttsd);
@@ -124,7 +147,7 @@ public class ThongTinSDContrller {
         }else {
             System.out.println("Ban khong muon thiet bi nay");
         }
-        return "userThietbiView";
+        return "redirect:/userThietbi?maTV=" + maTV;
     }
 
     @PostMapping("/QLDatCho/searchTBbyName")
@@ -157,19 +180,26 @@ public class ThongTinSDContrller {
     public Boolean isDatChoByMaTB(Integer maTB) {
         for (ThongTinSD tt : ttsdRepository.findAll()) {
             // Nếu có thiết bị trong db
-            if (tt.getMaTB() == maTB) {
-                return tt.getTGDatcho() != null || tt.getTgMuon() != null;
+            if (tt.getMaTB() == maTB && tt.getTGDatcho() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)))
+                    return true;
             }
         }
         // Nếu không tìm thấy mã thiết bị
         return false;
     }
 
-    private int findIndexOfTTSD(int maTV, int maTB) {
+    private int findIndexOfTTSD(int maTV, int maTB, String state) {
         for (int i = 0; i < listTT.size(); i++) {
-            if (listTT.get(i).getMaTV() == maTV && listTT.get(i).getMaTB() == maTB){
-                System.out.println("MaTV va MaTB: " + maTV + " " + maTB);
-                return i;
+            if (listTT.get(i).getMaTV() == maTV && listTT.get(i).getMaTB() == maTB) {
+                if (state.equals("Muon") && listTT.get(i).getTgMuon() == null) {
+                    return i;
+                } else if (state.equals("Tra") && listTT.get(i).getTgTra() == null){
+                    System.out.println("CHECKING" + listTT.get(i).getTgTra());
+                    return i;
+                }
             }
         }
         return -1;
