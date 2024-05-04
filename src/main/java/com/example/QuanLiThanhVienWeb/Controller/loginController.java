@@ -26,6 +26,7 @@ public class loginController {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
     @Autowired
     private ThanhVienRepository tvRe;
+
     private ThanhVien tv;
     
 	@RequestMapping("/login")
@@ -157,6 +158,6 @@ public class loginController {
                 return "quenMK";
             }
         }
- 
     }
+
 }

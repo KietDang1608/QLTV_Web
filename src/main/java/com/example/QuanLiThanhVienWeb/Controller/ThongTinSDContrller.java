@@ -57,12 +57,13 @@ public class ThongTinSDContrller {
         ArrayList<ThongTinSD> listTT_muon = new ArrayList();
         for (ThongTinSD tt : listTT){
             if (tt.getMaTV() == maTV){
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
-                //Dang Dat Cho
-                if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)) && tt.getTgMuon() == null)
-                    listTT_datcho.add(tt);
-
+                if(tt.getTGDatcho() != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                    //Dang Dat Cho
+                    if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)) && tt.getTgMuon() == null)
+                        listTT_datcho.add(tt);
+                }
                 //Dang Muon
                 if (tt.getMaTV() == maTV && tt.getTgMuon() != null && tt.getTgTra() == null)
                     listTT_muon.add(tt);
