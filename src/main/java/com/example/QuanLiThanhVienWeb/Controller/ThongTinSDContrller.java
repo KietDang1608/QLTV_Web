@@ -157,7 +157,7 @@ public class ThongTinSDContrller {
             Model model) {
                 ArrayList<ThietBi> lstFound = new ArrayList<>();
                 for(ThietBi tb: tbRe.findAll()) {
-                	if(tb.getTenTB().contains(search)) {
+                	if(tb.getTenTB().toLowerCase().contains(search.toLowerCase())) {
                 		lstFound.add(tb);
                 	}
                 }
