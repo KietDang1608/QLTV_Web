@@ -42,10 +42,13 @@ public class loginController {
     	if(taiKhoan.equals("") && password.equals("")) {
     		m.addAttribute("erroll", "Tài khoản và mật khẩu không được để trống");
     		return "login";
-    	}else {
+    	}
+    	else {
 	    	Iterable<ThanhVien> list = tvRe.findAll();
 	        for (ThanhVien us : list){
-		        	if(us.getEmail().equals(taiKhoan) && us.getPassword().equals(password)) {
+	        		if(us.getEmail().equals("admin") && us.getPassword().equals(password)) {
+	        			return "admin";
+	        		}else if(us.getEmail().equals(taiKhoan) && us.getPassword().equals(password)) {
 		        		System.out.println("Đăng nhập thành công !!");
 		        		m.addAttribute("username", us.getHoTen());
 						m.addAttribute("maTV", us.getMaTV());
