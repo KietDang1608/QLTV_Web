@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface XuLyRepository extends CrudRepository<XuLy,Long> {
     List<XuLy> findByMaTV(long maTV);
-
 }

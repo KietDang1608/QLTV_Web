@@ -311,7 +311,7 @@ public class ThongKeController {
     private ArrayList<ThongTinSD> getDSThanhVienByKhoa(String khoa){
         ArrayList<ThongTinSD> lstFound = new ArrayList<>();
         for (ThongTinSD tt: ttRe.findAll()){
-            Optional<ThanhVien> optionalThanhVien = tvRe.findById((long) tt.getMaTV());
+            Optional<ThanhVien> optionalThanhVien = tvRe.findById((int) tt.getMaTV());
             ThanhVien tv = optionalThanhVien.get(); // Cẩn thận vì có thể gây ra ngoại lệ
             if (tt.getTgVao() != null) {
                 if (tv.getKhoa().contains(khoa)) {
@@ -338,7 +338,7 @@ public class ThongKeController {
     private ArrayList<ThongTinSD> getDSTVBYNganh(String nganh){
         ArrayList<ThongTinSD> lstFound = new ArrayList<>();
         for (ThongTinSD tt: ttRe.findAll()){
-            Optional<ThanhVien> optionalThanhVien = tvRe.findById((long) tt.getMaTV());
+            Optional<ThanhVien> optionalThanhVien = tvRe.findById((int) tt.getMaTV());
             ThanhVien tv = optionalThanhVien.get(); // Cẩn thận vì có thể gây ra ngoại lệ
             if (tt.getTgVao() != null) {
                 if (tv.getNganh().contains(nganh)) {

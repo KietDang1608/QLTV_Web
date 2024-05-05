@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin đặt chỗ và mượn thiết bị</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+    <div class="container" id="thong-tin-dat-cho">
+        <!-- quay lại trang danh sách thành viên -->
+        <div class="text-end">
+            <button type="button" id="closeContainer">
+                <span >&times;</span>
+            </button>
+        </div>
+
+
+
+        <h1 class="text-center">Thông tin Thành viên</h1>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">Mã TV: <span th:text="${thanhVien.maTV}"></span></p>
+                <p class="card-text">Họ và Tên: <span th:text="${thanhVien.hoTen}"></span></p>
+                <p class="card-text">Khoa: <span th:text="${thanhVien.khoa}"></span></p>
+                <p class="card-text">Ngành: <span th:text="${thanhVien.nganh}"></span></p>
+                <p class="card-text">SĐT: <span th:text="${thanhVien.sdt}"></span></p>
+                <p class="card-text">Mật khẩu: <span th:text="${thanhVien.password}"></span></p>
+                <p class="card-text">Email: <span th:text="${thanhVien.email}"></span></p>
+            </div>
+        </div>
+
+        <h1>Thông tin đặt chỗ thiết bị</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Mã TT</th>
+                    <th scope="col">Thời gian đặt chỗ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tt : ${thongTinDatChoList}">
+                    <td th:text="${tt.maTT}"></td>
+                    <td th:text="${tt.tgDatcho}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h1>Thông tin mượn thiết bị</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Mã TT</th>
+                    <th scope="col">Mã TB</th>
+                    <th scope="col">Thời gian mượn</th>
+                    <th scope="col">Thời gian trả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tt : ${thongTinMuonList}">
+                    <td th:text="${tt.maTT}"></td>
+                    <td th:text="${tt.maTB}"></td>
+                    <td th:text="${tt.tgMuon}"></td>
+                    <td th:text="${tt.tgTra}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
