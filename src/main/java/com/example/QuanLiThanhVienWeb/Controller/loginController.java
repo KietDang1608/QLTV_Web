@@ -65,6 +65,9 @@ public class loginController {
 			}else {
 				Iterable<ThanhVien> list = tvRe.findAll();
 				for (ThanhVien us : list){
+					if(us.getEmail().equals("admin") && us.getPassword().equals(password)) {
+						return "admin";
+					}else
 					if(us.getEmail().equals(taiKhoan) && us.getPassword().equals(password)) {
 						System.out.println("Đăng nhập thành công !!");
 						m.addAttribute("username", us.getHoTen());
