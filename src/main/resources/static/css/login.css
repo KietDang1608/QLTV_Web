@@ -123,6 +123,10 @@
 	position: absolute;
 	top: 245px;
 	left: 750px;
-	color: green;
+	color: rgb(0, 128, 0);
+}
+#send{
+	 background-color: rgb(0, 128, 0);
+	 color: white;
 }
 
