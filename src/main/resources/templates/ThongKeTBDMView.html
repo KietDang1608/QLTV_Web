@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thong Ke Thiet Bi Da Muon</title>
+</head>
+<body>
+<h1>THỐNG KÊ THIẾT BỊ ĐÃ MƯỢN</h1>
+<form th:action="@{/ThongKe/TKTB/searchTKTB}" method="post">
+    Start: <input type="datetime-local" name="ngaybd" id="ngaybd" th:value="${ngaybd}">
+    End: <input type="datetime-local" name="ngaykt" id="ngaykt" th:value="${ngaykt}">
+    <button type="submit">Lọc</button>
+</form>
+<script>
+
+</script>
+<!-- Tạo bảng để hiển thị dữ liệu -->
+<table border="1" width="100%">
+    <thead>
+    <tr>
+        <!-- Đặt tên cột theo thông tin cần hiển thị -->
+        <th>Mã Thiết Bị</th>
+        <th>Tên Thiết Bị</th>
+        <th>Mô tả</th>
+        <th>Thời gian mượn</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Vòng lặp để lặp qua danh sách bên ngoài -->
+    <tr th:each="row : ${data}">
+        <!-- Vòng lặp để lặp qua danh sách bên trong -->
+        <td th:each="value, stat : ${row}" th:text="${value}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
