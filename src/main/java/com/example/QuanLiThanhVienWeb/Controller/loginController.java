@@ -1,19 +1,32 @@
 package com.example.QuanLiThanhVienWeb.Controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
 
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
+
+
 
 
 //import com.example.QuanLiThanhVienWeb.Repositories.userRepositoryImplement;
@@ -24,10 +37,15 @@ public class loginController {
     private static final Pattern PHONE_PATTERN = Pattern.compile(PHONE_REGEX);
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
     @Autowired
     private ThanhVienRepository tvRe;
 
-    private ThanhVien tv;
+
+	@Autowired
+	private JavaMailSender mailSender;
+
+  private ThanhVien tv;
     
 	@RequestMapping("/login")
 	public String showLogin() {
@@ -164,4 +182,49 @@ public class loginController {
         }
     }
 
+
+	//Forgot pass
+	@GetMapping("/forgot_password")
+	public String showForgotPasswordForm() {
+		return "forgot_password_form";
+	}
+
+	@PostMapping("/forgot_password")
+	public String processForgotPassword(HttpServletRequest request, Model model) throws UnsupportedEncodingException, MessagingException {
+		String email = request.getParameter("email");
+		String newPassword = UUID.randomUUID().toString().substring(0, 11);;
+		System.out.println("newPassword: " + newPassword);
+		ThanhVien tv = tvRe.findByEmail(email);
+		tv.setPassword(newPassword);
+		tvRe.save(tv);
+		sendEmail(email, newPassword);
+		model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
+
+		return "forgot_password_form";
+	}
+
+	public void sendEmail(String recipientEmail, String newPassWord) throws UnsupportedEncodingException, MessagingException {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+		try {
+			helper.setFrom("haha19042001@gmail.com", "Your Name"); // Thay "Your Name" bằng tên của bạn
+			helper.setTo(recipientEmail);
+			helper.setSubject("Here's the link to reset your password");
+
+			String htmlBody = "<p>Hello,</p>"
+					+ "<p>You have requested to reset your password.</p>"
+					+ "<p>Here is your new password:</p>"
+					+ "<p><strong>" + newPassWord + "</strong></p>"
+					+ "<p>Ignore this email if you do remember your password, "
+					+ "or you have not made the request.</p>";
+
+			helper.setText(htmlBody, true); // Đặt tham số thứ hai thành true để xác định là HTML
+
+			mailSender.send(message);
+			System.out.println("Email sent successfully!");
+		} catch (MessagingException | MailException e) {
+			System.out.println("Failed to send email: " + e.getMessage());
+		}
+	}
 }
