@@ -20,8 +20,8 @@
             <span class="idd" th:text="${sdt}"></span>
 
             <div class="d-flex flex-row justify-content align-items-center gap-2">
-                <span class="idd1" th:text="${email}"></span>
-                <span>
+                <span class="idd1" id="email" th:text="${email}"></span>
+                <span id="copyIcon">
                         <i class="fa fa-copy"></i>
                 </span>
             </div>
@@ -60,6 +60,26 @@
             violationList.style.display = 'none';
         }
     }
+
+    document.getElementById('copyIcon').addEventListener('click', function() {
+            var emailElement = document.getElementById('email');
+            var emailText = emailElement.innerText || emailElement.textContent;
+
+            // Create a temporary input element
+            var tempInput = document.createElement('input');
+            tempInput.value = emailText;
+            document.body.appendChild(tempInput);
+
+            // Select and copy the email text
+            tempInput.select();
+            document.execCommand('copy');
+
+            // Remove the temporary input
+            document.body.removeChild(tempInput);
+
+            // Optionally, provide some feedback to the user
+            alert('Email address copied: ' + emailText);
+        });
 </script>
 
 </body>

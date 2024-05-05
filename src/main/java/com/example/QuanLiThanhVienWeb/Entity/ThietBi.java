@@ -1,5 +1,7 @@
 package com.example.QuanLiThanhVienWeb.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity(name = "ThietBi")
@@ -12,8 +14,9 @@ public class ThietBi {
     private String tenTB;
     private String moTa;
 
-    public ThietBi(int maTB,String tenTB, String moTa) {
-        this.maTB=maTB;
+ 
+    public ThietBi(int maTB, String tenTB, String moTa) {
+        this.maTB = maTB;
         this.tenTB = tenTB;
         this.moTa = moTa;
     }
@@ -54,4 +57,3 @@ public class ThietBi {
                 '}';
     }
 }
-
