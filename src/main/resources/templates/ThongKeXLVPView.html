@@ -3,9 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Thong Ke Xu Ly Vi Pham</title>
+    <style>
+    /* Đặt màu nền cho header */
+    table thead {
+      background-color: #212529; /* Màu xám đậm cho header */
+    }
+
+    table thead th {
+      color: white; /* Chữ trắng để nổi bật trên nền đen */
+      padding: 10px; /* Thêm khoảng đệm */
+      text-align: center; /* Căn giữa văn bản */
+    }
+
+    /* Đặt màu nền xen kẽ cho các hàng trong bảng */
+    table tbody tr:nth-child(odd) {
+      background-color: rgba(79, 89, 102, 0.08); /* Màu nền nhạt cho các hàng lẻ */
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: white; /* Màu trắng cho các hàng chẵn */
+    }
+
+    /* Đặt padding và căn giữa cho các ô */
+    table tbody td {
+      padding: 10px; /* Thêm khoảng đệm */
+      text-align: left; /* Căn giữa nội dung */
+    }
+
+    /* Đặt viền cho bảng */
+    table {
+      border-collapse: collapse; /* Gộp các viền lại */
+      width: 100%; /* Bảng rộng 100% */
+    }
+
+    table, th, td {
+      border: 1px solid #dee2e6; /* Viền cho bảng và các ô */
+    }
+  </style>
 </head>
-<body>
-<h1>THỐNG KÊ XỬ LÝ VI PHẠM</h1>
+<body style="font-family:Arial, sans-serif;">
+<h1 style="border: 1px solid black; text-align: center; padding: 20px; border-radius: 5px;">THỐNG KÊ XỬ LÝ VI PHẠM</h1>
 <form th:action="@{/ThongKe/TKXL/searchTKVP}" method="post">
     Start: <input type="datetime-local" name="ngaybd" id="ngaybd" th:value="${ngaybd}">
     End: <input type="datetime-local" name="ngaykt" id="ngaykt" th:value="${ngaykt}">
