@@ -7,7 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-<div>Danh sách xử lý</div>
+<h2 style = "text-align: center;"> DANH SÁCH XỬ LÝ </h2>
+
+
+<form th:action = "@{/QLXuLy/searchXL}" method = "post">
+    
+
+</form>
+
+
 <table border="1">
     <tr>
         <th>Mã xử lý</th>
@@ -16,6 +24,8 @@
         <th>Số tiền</th>
         <th>Ngày xử lý</th>
         <th>Trạng thái</th>
+
+        <th> Chức năng </th>
     </tr>
     <tr th:each ="row : ${data}">
         <td th:utext="${row.maXL}">...</td>
@@ -24,7 +34,17 @@
         <td th:utext="${row.soTien}">...</td>
         <td th:utext="${row.ngayXL}">...</td>
         <td th:utext="${row.trangThaiXL}">...</td>
-    </tr>
+    
+        <td>
+            <a th:href="'/QLThietBi/edit/'+ ${rowStat.index}" >Edit</a>  
+            <a th:href="'/QLThietBi/delete/'+ ${rowStat.index}">Delete</a>  
+       
+        </td>
+      </tr>
 </table>
+<br/>
+<button> <a href="/addXuLy">  THÊM XỬ LÝ</button>
+
+
 </body>
 </html>

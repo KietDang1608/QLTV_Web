@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<div>
+    <h2>Form sửa xử lý/h2>
+    <form th:object="${xuly}" th:action="@{/update}" action="#" method="POST">
+        <label for="maXL">Mã xử lý:</label><br>
+        <input type="text" id="maXL" name="maXL" th:field="*{maXL}" ><br>
+        
+        <label for="maTV">Mã thành viên:</label><br>
+        <input type="text" id="maTV" name="maTV" th:field="*{maTV}" ><br>
+        
+
+       
+    </form>
+</div>
+
+</body>
+</html>

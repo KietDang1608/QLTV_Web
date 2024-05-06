@@ -10,11 +10,11 @@ public class XuLy {
     private int maXL;
     private int maTV;
     private String hinhThucXL;
-    private Integer soTien;
+    private int soTien;
     private String ngayXL;
     private int trangThaiXL;
 
-    public XuLy( int maTV, String hinhThucXL, Integer soTien, String ngayXL) {
+    public XuLy( int maTV, String hinhThucXL, int soTien, String ngayXL) {
         this.maTV = maTV;
         this.hinhThucXL = hinhThucXL;
         this.soTien = soTien;
@@ -52,7 +52,7 @@ public class XuLy {
         return soTien;
     }
 
-    public void setSoTien(Integer soTien) {
+    public void setSoTien(int soTien) {
         this.soTien = soTien;
     }
 

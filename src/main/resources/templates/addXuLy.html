@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <h2>Form thêm xử lý</h2>
+    <form action="#" th:object="${xuly}" th:action="@{save}" method="POST">
+       
+        <label for="maXL">Mã xử lý:</label><br>
+        <input type="text" id="maXL" name="maXL" th:field="*{maXL}" ><br>
+        
+        <label for="maTV">Mã thành viên:</label><br>
+        <input type="text" id="maTV" name="maTV" th:field="*{maTV}" ><br>
+        
+
+        
+
+        <label for="hinhThucXL">Hình thức xử lý:</label><br>
+        <select id="hinhThucXL" name="hinhThucXL" >
+            <option th:value="1">Khóa thẻ 1 tháng</option>
+            <option th:value="2">Khóa thẻ 2 tháng</option>
+            <option th:value="3">Khóa thẻ vĩnh viễn</option>
+            <option th:value="4">Phạt tiền</option>
+
+        </select><br>
+        
+        <label for="soTien">Số tiền:</label><br>
+        <input type="number" id="soTien" name="soTien" ><br>
+        
+        <label for="ngayXL">Ngày xử lý vi phạm:</label><br>
+        <input type="date" id="ngayXL" name="ngayXL"><br>
+        
+        <label>Trạng thái xử lý:</label><br>
+        <input type="radio" id="daXuLy" name="trangThaiXL" value="Đã xử lý">
+        <label for="daXuLy">Đã xử lý</label><br>
+        <input type="radio" id="chuaXuLy" name="trangThaiXL" value="Chưa xử lý">
+        <label for="chuaXuLy">Chưa xử lý</label><br><br>
+        
+        <input type="submit" value="Lưu">
+       
+       
+       
+        
+       <br/>
+    </form>
+</div>
+
+</body>
+</html>
