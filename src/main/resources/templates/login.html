@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,8 +19,10 @@
                 <button type="submit">Đăng Nhập</button>
                 <button type="submit"  formaction="/dangKy">Đăng Ký</button>
             </form>
-            <a href="/quenMK">Quên mật khẩu</a>
+           <a th:href="@{forgot_password}">Quên mật khẩu?</a>
         </div>
+
+        
     </div>
     
     

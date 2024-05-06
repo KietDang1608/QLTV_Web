@@ -51,38 +51,70 @@
         <td th:utext="${row.tenTB}">...</td>
         <td th:utext="${row.moTa}">...</td>
         <td >
-            <form action="#" th:object="${thietbi}" th:action="@{save}" method="POST">
+            <form action="#" th:object="${data}" th:action="@{muon}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
                 <input type="submit" value="Mượn" th:href="${rowStat.index}" >
             </form>
         </td>
         <td>
             <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
                 <input type="hidden" name="maTB" th:value="${row.maTB}" />
-                <input type="submit" value="Trả" th:href="${rowStat.index}" >
-            </form>
-        </td>
-        <td>
-            <form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
-                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
                 <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
             </form>
         </td>
     </tr>
 </table>
 
+<hr style="height: 1px;">
+
+<div>Các thiết bị đang đặt chỗ </div>
+
 <table border="1">
     <tr>
         <th>MaTb</th>
         <th>Thời Gian Cho Mượn </th>
-        <th>Thời Gian Cho Trả</th>
         <th>Thời Gian Đặt Chỗ</th>
+        <th> Xử Lý Mượn</th>
 
     </tr>
-    <tr th:each ="row : ${data}">
+    <tr th:each ="row : ${dataTT_datcho}">
         <td th:utext="${row.maTB}">...</td>
-        <td th:utext="${row.tenTB}">...</td>
-        <td th:utext="${row.moTa}">...</td>
+        <td th:utext="${row.tgMuon}">...</td>
+        <td th:utext="${row.TGDatcho}">...</td>
+        <td>
+            <form action="#" th:object="${dataTT_datcho}" th:action="@{muon}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+                <input type="submit" value="Mượn" th:href="${rowStat.index}" >
+            </form>
+        </td>
+    </tr>
+</table>
+
+<hr style="height: 1px;">
+
+<div>Các thiết bị đang mượn</div>
+
+<table border="1">
+    <tr>
+        <th>MaTb</th>
+        <th>Thời Gian Cho Mượn </th>
+        <th>Thời Gian Đặt Chỗ</th>
+        <th> Xử Lý Trả</th>
+    </tr>
+    <tr th:each ="row : ${dataTT_muon}">
+        <td th:utext="${row.maTB}">...</td>
+        <td th:utext="${row.tgMuon}">...</td>
+        <td th:utext="${row.TGDatcho}">...</td>
+        <td>
+            <form action="#" th:object="${dataTT_muon}" th:action="@{tra}" method="POST">
+                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+                <input type="submit" value="Trả" th:href="${rowStat.index}" >
+            </form>
+        </td>
     </tr>
 </table>
 

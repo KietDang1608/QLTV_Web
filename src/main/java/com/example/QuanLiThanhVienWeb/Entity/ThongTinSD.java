@@ -26,12 +26,14 @@ public class ThongTinSD {
         this.tgDatcho=tgDatcho;
     }
 
-    public ThongTinSD(Integer maTB, String tgMuon) {
+    public ThongTinSD(int maTV, Integer maTB, String tgMuon) {
+        this.maTV = maTV;
         this.maTB = maTB;
         this.tgMuon = tgMuon;
     }
 
-    public ThongTinSD(Integer maTB, String tgMuon, String tgDatcho) {
+    public ThongTinSD(int maTV, Integer maTB, String tgMuon, String tgDatcho) {
+        this.maTV = maTV;
         this.maTB = maTB;
         this.tgMuon = tgMuon;
         this.tgDatcho = tgDatcho;
@@ -89,14 +91,12 @@ public class ThongTinSD {
         this.tgTra = tgTra;
     }
 
-    public String getTGDatcho()
-    {
+    public String getTgDatcho() {
         return tgDatcho;
     }
-
-    public void setTGDatcho(String tgDatcho)
-    {
-        this.tgDatcho=tgDatcho;
+    
+    public void setTgDatcho(String tgDatcho) {
+        this.tgDatcho = tgDatcho;
     }
 
     @Override

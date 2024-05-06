@@ -1,5 +1,7 @@
 package com.example.QuanLiThanhVienWeb.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity(name = "ThietBi")
@@ -52,4 +54,3 @@ public class ThietBi {
                 '}';
     }
 }
-
