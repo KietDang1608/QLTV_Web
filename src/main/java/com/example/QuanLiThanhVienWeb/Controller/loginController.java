@@ -16,7 +16,6 @@ import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
 
 
-
 //import com.example.QuanLiThanhVienWeb.Repositories.userRepositoryImplement;
 
 @Controller
@@ -49,14 +48,15 @@ public class loginController {
 		        	if(us.getEmail().equals(taiKhoan) && us.getPassword().equals(password)) {
 		        		System.out.println("Đăng nhập thành công !!");
 		        		m.addAttribute("username", us.getHoTen());
+						m.addAttribute("maTV", us.getMaTV());
 
 		        		return "home";
 
 		        	}
 	        }
+			m.addAttribute("erroll", "Sai Tài khoản hoặc mật khẩu");
+			return "login";
     	}
-    	m.addAttribute("erroll", "Sai Tài khoản hoặc mật khẩu");
-        return "login";
     }
 	@RequestMapping("/dangKy")
 	public String showDangKy() {
