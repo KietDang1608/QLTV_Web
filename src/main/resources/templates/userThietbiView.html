@@ -157,7 +157,7 @@
 	    <tr th:each ="row : ${dataTT_datcho}">
 	        <td th:utext="${row.maTB}">...</td>
 	        <td th:utext="${row.tgMuon}">...</td>
-	        <td th:utext="${row.TGDatcho}">...</td>
+	        <td th:utext="${row.tgDatcho}">...</td>
 	        <td>
 	            <form action="#" th:object="${dataTT_datcho}" th:action="@{muon}" method="POST">
 	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
@@ -187,7 +187,7 @@
 	    <tr th:each ="row : ${dataTT_muon}">
 	        <td th:utext="${row.maTB}">...</td>
 	        <td th:utext="${row.tgMuon}">...</td>
-	        <td th:utext="${row.TGDatcho}">...</td>
+	        <td th:utext="${row.tgDatcho}">...</td>
 	        <td>
 	            <form action="#" th:object="${dataTT_muon}" th:action="@{tra}" method="POST">
 	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
