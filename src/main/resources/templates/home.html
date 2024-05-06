@@ -18,7 +18,10 @@
             <a th:href="@{#}"></a>
         </div>
         <div class="logo">
-            <p>Xin chào, <span th:text="${username}"></span></p>
+            <form id="profileForm" th:action="@{/profile}" method="get">
+                <input type="hidden" name="maTV" th:value="${maTV}" />
+                <a href="#" onclick="document.getElementById('profileForm').submit(); return false;">Xin chào, <span th:text="${username}"></span></a>
+            </form>
         </div>
 
         <ul class="nav-links">

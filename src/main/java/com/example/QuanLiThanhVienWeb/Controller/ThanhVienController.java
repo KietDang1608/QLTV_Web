@@ -76,10 +76,10 @@ public class ThanhVienController {
     public String saveNewPass(
             Model model,
             RedirectAttributes redirectAttributes,
-            @RequestParam long maTV,
-            @RequestParam String oldPass,
-            @RequestParam String password,
-            @RequestParam String confirmedPass
+            @RequestParam(name = "maTV") long maTV,
+            @RequestParam(name="oldPass") String oldPass,
+            @RequestParam(name="password") String password,
+            @RequestParam(name="confirmedPass") String confirmedPass
     ){
         try {
             Iterable<ThanhVien> list = tvRe.findAll();
@@ -120,7 +120,7 @@ public class ThanhVienController {
     @GetMapping("/profile")
     public String getPersonalInfo(
             Model model,
-            @RequestParam long maTV
+            @RequestParam(name = "maTV") long maTV
     ){
         Optional<ThanhVien> data = tvRe.findById(maTV);
         List<XuLy> list = xlRe.findByMaTV(maTV);
