@@ -153,31 +153,28 @@ public class ThongTinSDContrller {
 
     @PostMapping("/QLDatCho/searchTBbyName")
     public String handleSeachSubmit(
-            @RequestParam("search") String search,
-            Model model) {
-        ArrayList<ThietBi> lstFound = new ArrayList<>();
-        for(ThietBi tb: tbRe.findAll()) {
-            if(tb.getTenTB().toLowerCase().contains(search.toLowerCase())) {
-                lstFound.add(tb);
-            }
-        }
-
+        @RequestParam("search") String search,
+            Model model, @RequestParam("maTV") int maTV) {
+                ArrayList<ThietBi> lstFound = new ArrayList<>();
+                for(ThietBi tb: tbRe.findAll()) {
+                	if(tb.getTenTB().toLowerCase().contains(search.toLowerCase())) {
+                		lstFound.add(tb);
+                	}
+                }
+            
         model.addAttribute("data",lstFound);
         model.addAttribute("search",search);
-
-        return "userThietbiView"; // Trang hiển thị kết quả
+        
+        return "/userThietbiView";
     }
 
     @GetMapping("/QLDatCho/refresh")
     public String rf(Model m, @RequestParam("maTV") int maTV) {
-    			Iterable<ThietBi> lstFound = tbRe.findAll();
-                listTB =(ArrayList<ThietBi>) lstFound;
-            
-        m.addAttribute("data",lstFound);
+
         getAllThietBi(m, maTV);
 
+        return "redirect:/userThietbi?maTV=" + maTV;
 
-        return "userThietbiView"; // Trang hiển thị kết quả
     }
 
 

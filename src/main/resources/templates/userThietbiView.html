@@ -40,16 +40,31 @@
     	background-color: #edd470;
     	border: none;
     	border-radius: 5%;
+    	color: white;
     	}
     	#refresh button{
     	background-color: #98c8d5;
     	border: none;
     	border-radius: 5%;
+    	color: white;
     	}
     	.muonbtn{
     	background-color: #afb57d;
     	border: none;
     	border-radius: 5%;
+    	color: white;
+    	}
+    	.datchobtn{
+    	background-color: #85a77a;
+    	border: none;
+    	border-radius: 5%;
+    	color: white;
+    	}
+    	.trabtn{
+    	background-color: #6c9d98;
+    	border: none;
+    	border-radius: 5%;
+    	color: white;
     	}
     	table{
     	    width: 100%;
@@ -97,6 +112,7 @@
 <br>
 <form id="search" th:action="@{/QLDatCho/searchTBbyName}" method="post">
 	<input type="text" placeholder="Search.." name="search"/>
+	<input type="hidden" name="maTV" th:value="${param.maTV}" />
 	<button type="submit">Tìm</button>
 </form>
 
@@ -104,7 +120,10 @@
 
 
 <h1>Danh sách thiết bị
-
+	<form id="refresh" th:action="@{/QLDatCho/refresh}" method="get">
+		<input type="hidden" name="maTV" th:value="${param.maTV}" />
+		<button type="submit">Refresh</button>
+	</form>
 </h1>
 <table>
 	<thead>
@@ -129,7 +148,7 @@
 	           	<form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
 	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
 	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
-	                <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
+	                <input class="datchobtn" type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
 	            </form>
 	        </td>
 	        
@@ -162,7 +181,7 @@
 	            <form action="#" th:object="${dataTT_datcho}" th:action="@{muon}" method="POST">
 	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
 	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
-	                <input type="submit" value="Mượn" th:href="${rowStat.index}" >
+	                <input class="muonbtn" type="submit" value="Mượn" th:href="${rowStat.index}" >
 	            </form>
 	        </td>
 	    </tr>
@@ -192,7 +211,7 @@
 	            <form action="#" th:object="${dataTT_muon}" th:action="@{tra}" method="POST">
 	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
 	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
-	                <input type="submit" value="Trả" th:href="${rowStat.index}" >
+	                <input class="trabtn" type="submit" value="Trả" th:href="${rowStat.index}" >
 	            </form>
 	        </td>
 	    </tr>
