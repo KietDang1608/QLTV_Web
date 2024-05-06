@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Thong Ke Thiet Bi Da Muon</title>
+    <title>Thong Ke Thiet Bi Dang Muon</title>
 </head>
 <body>
-<h1>THỐNG KÊ THIẾT BỊ ĐÃ MƯỢN</h1>
+<h1>THỐNG KÊ THIẾT BỊ ĐANG ĐƯỢC MƯỢN</h1>
 <form th:action="@{/ThongKe/TKTB/searchTKTB}" method="post">
     Start: <input type="datetime-local" name="ngaybd" id="ngaybd" th:value="${ngaybd}">
     End: <input type="datetime-local" name="ngaykt" id="ngaykt" th:value="${ngaykt}">
