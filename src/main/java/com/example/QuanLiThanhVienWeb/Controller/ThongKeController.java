@@ -292,7 +292,7 @@ public class ThongKeController {
     private ArrayList<ThongTinSD> getDSMTB(){
         ArrayList<ThongTinSD> lstFound = new ArrayList<>();
         for (ThongTinSD tt: ttRe.findAll()){
-            if (tt.getTgMuon() != null){
+            if (tt.getTgMuon() != null && tt.getTgTra() == null){
                 lstFound.add(tt);
             }
         }
