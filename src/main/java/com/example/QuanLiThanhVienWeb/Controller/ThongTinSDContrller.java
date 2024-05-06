@@ -167,12 +167,15 @@ public class ThongTinSDContrller {
 
         return "userThietbiView"; // Trang hiển thị kết quả
     }
-    @PostMapping("/QLDatCho/refresh")
-    public String rf(Model model) {
-        Iterable<ThietBi> lstFound = tbRe.findAll();
-        listTB =(ArrayList<ThietBi>) lstFound;
 
-        model.addAttribute("data",lstFound);
+    @GetMapping("/QLDatCho/refresh")
+    public String rf(Model m, @RequestParam("maTV") int maTV) {
+    			Iterable<ThietBi> lstFound = tbRe.findAll();
+                listTB =(ArrayList<ThietBi>) lstFound;
+            
+        m.addAttribute("data",lstFound);
+        getAllThietBi(m, maTV);
+
 
         return "userThietbiView"; // Trang hiển thị kết quả
     }
