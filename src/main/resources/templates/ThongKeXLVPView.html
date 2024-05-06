@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Thong Ke Thong Tin Su Dung</title>
-    <link rel="stylesheet" th:href="@{/css/thongke.css}">
+    <title>Thong Ke Xu Ly Vi Pham</title>
     <style>
     /* Đặt màu nền cho header */
     table thead {
@@ -43,19 +42,14 @@
   </style>
 </head>
 <body style="font-family:Arial, sans-serif;">
-<h2 style="border: 1px solid black; text-align: center; padding: 20px; border-radius: 5px;">THỐNG KÊ VÀO KHU VỰC HỌC TẬP</h2>
-<form th:action="@{/ThongKe/TKTTSD/searchTKTTSD}" method="post">
+<h1 style="border: 1px solid black; text-align: center; padding: 20px; border-radius: 5px;">THỐNG KÊ XỬ LÝ VI PHẠM</h1>
+<form th:action="@{/ThongKe/TKXL/searchTKVP}" method="post">
     Start: <input type="datetime-local" name="ngaybd" id="ngaybd" th:value="${ngaybd}">
     End: <input type="datetime-local" name="ngaykt" id="ngaykt" th:value="${ngaykt}">
-    Khoa:
-    <select id="cbkhoa" name="cbkhoa">
-    <!-- Lặp qua danh sách các thành phố -->
-    <option th:each="khoa : ${cbKhoa}" th:value="${khoa}" th:text="${khoa}" th:selected="${khoa == cbkhoa}"></option>
-    </select>
-    Ngành:
-    <select id="cbnganh" name="cbnganh">
+    Hình Thức Xử Lý:
+    <select id="cbxuly" name="cbxuly">
         <!-- Lặp qua danh sách các thành phố -->
-        <option th:each="nganh : ${cbNganh}" th:value="${nganh}" th:text="${nganh}" th:selected="${nganh == cbnganh}"></option>
+        <option th:each="xuly : ${cbXuly}" th:value="${xuly}" th:text="${xuly}" th:selected="${xuly == cbxuly}"></option>
     </select>
     <button type="submit">Lọc</button>
 </form>
@@ -67,11 +61,11 @@
     <thead>
     <tr>
         <!-- Đặt tên cột theo thông tin cần hiển thị -->
+        <th>Mã Xử Lý</th>
         <th>Mã Thành Viên</th>
-        <th>Họ Tên</th>
-        <th>Khoa</th>
-        <th>Ngành</th>
-        <th>Thời gian vào</th>
+        <th>Hình Thức Xử Lý</th>
+        <th>Số Tiền Bồi Thường</th>
+        <th>Ngày Xử Lý</th>
     </tr>
     </thead>
     <tbody>

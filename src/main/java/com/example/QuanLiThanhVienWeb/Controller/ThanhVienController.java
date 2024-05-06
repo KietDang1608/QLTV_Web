@@ -1,7 +1,10 @@
 package com.example.QuanLiThanhVienWeb.Controller;
 
 import com.example.QuanLiThanhVienWeb.Entity.ThanhVien;
+import com.example.QuanLiThanhVienWeb.Entity.ThongTinSD;
 import com.example.QuanLiThanhVienWeb.Entity.XuLy;
+import com.example.QuanLiThanhVienWeb.Repositories.ThietBiRepository;
+import com.example.QuanLiThanhVienWeb.Repositories.ThongTinSDRepository;
 import com.example.QuanLiThanhVienWeb.Repositories.ThanhVienRepository;
 import com.example.QuanLiThanhVienWeb.Repositories.XuLyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,6 +27,10 @@ public class ThanhVienController {
     @Autowired
     private XuLyRepository xlRe;
 
+
+    @Autowired
+    private ThongTinSDRepository thongTinSDRepository;
+
     @GetMapping("/changePassword")
     public String toChangePassword(@RequestParam(name = "maTV") String maTV, Model model){
         model.addAttribute("maTV", maTV);
@@ -30,8 +38,9 @@ public class ThanhVienController {
     }
 
     private static ArrayList<ThanhVien> thanhVienList = new ArrayList();
+  
     @GetMapping("/QLThanhVien")
-    public String getAll(Model m){
+    public String getAll(Model m) {
         Iterable<ThanhVien> list = tvRe.findAll();
         thanhVienList = (ArrayList<ThanhVien>)tvRe.findAll();
         m.addAttribute("data",list);
@@ -41,14 +50,36 @@ public class ThanhVienController {
         return "ThanhVienView";
     }
 
+
+    //xem thông tin chi tiết của 1 thành viên
+    @GetMapping("/thanhvien/{maTV}/thong-tin-dat-cho")
+    public String getThongTinDatCho(@PathVariable("maTV") int maTV, Model model) {
+        ThanhVien thanhVien = tvRe.findById(maTV).orElse(null);
+        if (thanhVien != null) {
+            model.addAttribute("thanhVien", thanhVien);
+
+            // Lấy danh sách thông tin đặt chỗ thiết bị
+            List<ThongTinSD> thongTinDatChoList = thongTinSDRepository.findByMaTVAndMaTBIsNull(maTV);
+            model.addAttribute("thongTinDatChoList", thongTinDatChoList);
+
+            // Lấy danh sách thông tin mượn thiết bị
+            List<ThongTinSD> thongTinMuonList = thongTinSDRepository.findByMaTVAndMaTBIsNotNull(maTV);
+            model.addAttribute("thongTinMuonList", thongTinMuonList);
+
+            return "thong-tin-dat-cho";
+        } else {
+            return "Error404"; 
+        }
+    }
+
     @PostMapping("/save-password")
     public String saveNewPass(
             Model model,
             RedirectAttributes redirectAttributes,
-            @RequestParam long maTV,
-            @RequestParam String oldPass,
-            @RequestParam String password,
-            @RequestParam String confirmedPass
+            @RequestParam(name = "maTV") long maTV,
+            @RequestParam(name="oldPass") String oldPass,
+            @RequestParam(name="password") String password,
+            @RequestParam(name="confirmedPass") String confirmedPass
     ){
         try {
             Iterable<ThanhVien> list = tvRe.findAll();
@@ -89,7 +120,7 @@ public class ThanhVienController {
     @GetMapping("/profile")
     public String getPersonalInfo(
             Model model,
-            @RequestParam long maTV
+            @RequestParam(name = "maTV") long maTV
     ){
         Optional<ThanhVien> data = tvRe.findById(maTV);
         List<XuLy> list = xlRe.findByMaTV(maTV);
