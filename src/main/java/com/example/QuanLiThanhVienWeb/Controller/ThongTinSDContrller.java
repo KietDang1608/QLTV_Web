@@ -24,7 +24,7 @@ import java.util.Objects;
 
 @Controller
 public class ThongTinSDContrller {
-	
+
 
     @Autowired
     private ThongTinSDRepository ttsdRepository;
@@ -57,9 +57,9 @@ public class ThongTinSDContrller {
         ArrayList<ThongTinSD> listTT_muon = new ArrayList();
         for (ThongTinSD tt : listTT){
             if (tt.getMaTV() == maTV){
-                if(tt.getTGDatcho() != null) {
+                if(tt.getTgDatcho() != null) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                    LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTgDatcho(), formatter);
                     //Dang Dat Cho
                     if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)) && tt.getTgMuon() == null)
                         listTT_datcho.add(tt);
@@ -81,14 +81,14 @@ public class ThongTinSDContrller {
 
     @RequestMapping(value = {"datcho"}, method = RequestMethod.POST)
     public String saveDatCho(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
-    @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
+                             @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
 
         //Kiểm tra thiết bị có đang cho mượn hoặc đặt chỗ không
         if (!isDatChoByMaTB(maTB)){
             System.out.println("Thiết bị có thể đặt chỗ" + isDatChoByMaTB(maTB));
             //Lấy thời gian hiện tại
-            ttsd.setTGDatcho(takeCurrentDay());
-            String tg_datcho = ttsd.getTGDatcho();
+            ttsd.setTgDatcho(takeCurrentDay());
+            String tg_datcho = ttsd.getTgDatcho();
             System.out.println(tg_datcho);
 
             ttsd.setTgMuon(null);
@@ -111,7 +111,7 @@ public class ThongTinSDContrller {
     //Hàm mượn thiết bị
     @RequestMapping(value = {"muon"}, method = RequestMethod.POST)
     public String saveMuon(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
-    @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
+                           @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
         int index = findIndexOfTTSD(maTV, maTB, "Muon");
         System.out.println("index: " + index);
         //Nếu đang đặt chỗ thì cập nhật trong db
@@ -136,7 +136,7 @@ public class ThongTinSDContrller {
     //Hàm trả thiết bị
     @RequestMapping(value = {"tra"}, method = RequestMethod.POST)
     public String saveTra(Model model, @ModelAttribute("thongtinsd") ThongTinSD ttsd,
-    @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
+                          @RequestParam("maTB") int maTB, @RequestParam("maTV") int maTV) {
         int index = findIndexOfTTSD(maTV, maTB, "Tra");
         System.out.println("maTV: " + maTV + " maTB: " + maTB + " index: " + index);
         //Nếu đang đặt chỗ thì cập nhật trong db
@@ -153,20 +153,21 @@ public class ThongTinSDContrller {
 
     @PostMapping("/QLDatCho/searchTBbyName")
     public String handleSeachSubmit(
-        @RequestParam("search") String search,
+            @RequestParam("search") String search,
             Model model) {
-                ArrayList<ThietBi> lstFound = new ArrayList<>();
-                for(ThietBi tb: tbRe.findAll()) {
-                	if(tb.getTenTB().toLowerCase().contains(search.toLowerCase())) {
-                		lstFound.add(tb);
-                	}
-                }
-            
+        ArrayList<ThietBi> lstFound = new ArrayList<>();
+        for(ThietBi tb: tbRe.findAll()) {
+            if(tb.getTenTB().toLowerCase().contains(search.toLowerCase())) {
+                lstFound.add(tb);
+            }
+        }
+
         model.addAttribute("data",lstFound);
         model.addAttribute("search",search);
-        
+
         return "userThietbiView"; // Trang hiển thị kết quả
     }
+
     @GetMapping("/QLDatCho/refresh")
     public String rf(Model m, @RequestParam("maTV") int maTV) {
     			Iterable<ThietBi> lstFound = tbRe.findAll();
@@ -175,6 +176,7 @@ public class ThongTinSDContrller {
         m.addAttribute("data",lstFound);
         getAllThietBi(m, maTV);
 
+
         return "userThietbiView"; // Trang hiển thị kết quả
     }
 
@@ -182,9 +184,9 @@ public class ThongTinSDContrller {
     public Boolean isDatChoByMaTB(Integer maTB) {
         for (ThongTinSD tt : ttsdRepository.findAll()) {
             // Nếu có thiết bị trong db
-            if (tt.getMaTB() == maTB && tt.getTGDatcho() != null) {
+            if (tt.getMaTB() == maTB && tt.getTgDatcho() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTgDatcho(), formatter);
                 if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)))
                     return true;
             }
@@ -210,9 +212,9 @@ public class ThongTinSDContrller {
     public boolean isDatChoYourSelf(Integer maTV, Integer maTB){
         //mình đang đặt chỗ
         for (ThongTinSD tt : ttsdRepository.findAll()){
-            if (tt.getMaTV() == maTV && tt.getMaTB() == maTB && tt.getTGDatcho() != null) {
+            if (tt.getMaTV() == maTV && tt.getMaTB() == maTB && tt.getTgDatcho() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTGDatcho(), formatter);
+                LocalDateTime tg_datcho = LocalDateTime.parse(tt.getTgDatcho(), formatter);
                 if (tg_datcho.isAfter(LocalDateTime.now().minusHours(1)))
                     return true;
             }
@@ -246,7 +248,7 @@ public class ThongTinSDContrller {
     }
 
 
-//    public DatetoTime(){
+    //    public DatetoTime(){
 //        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 //        Date date = new Date();
 //        return formatter.format(date);
