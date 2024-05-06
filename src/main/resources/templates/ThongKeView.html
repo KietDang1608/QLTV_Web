@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/thongke.css}">
 </head>
-<body>
-<h1>THỐNG KÊ THÔNG TIN SỬ DỤNG</h1>
-<sp><a th:href="@{/ThongKe/TKTTSD}" target="tk-frame">Thống kê vào khu học tập</a>
-    <a th:href="@{/ThongKe/TKTB}" target="tk-frame">Thống kê thiết bị đang được mượn</a>
-    <a th:href="@{/ThongKe/TKXL}" target="tk-frame">Thống kê xử lý vi phạm</a>
-</sp>
-<iframe name="tk-frame" th:src="@{/ThongKe/TKTTSD}" width="100%" height="1000px">
-    Trình duyệt của bạn không hỗ trợ iframe.
-</iframe>
-</div>
+
+<body >
+    <h1 style="border: 1px solid black; text-align: center; padding: 20px; border-radius: 5px;margin-bottom:2%;">THỐNG KÊ THÔNG TIN SỬ DỤNG</h1>
+    <sp><a id="tkttsd" th:href="@{/ThongKe/TKTTSD}" target="tk-frame">Thống kê vào khu học tập</a>
+        <a id="tktbm" th:href="@{/ThongKe/TKTB}" target="tk-frame">Thống kê thiết bị đang được mượn</a>
+        <a id="tkxlvp" th:href="@{/ThongKe/TKXL}" target="tk-frame">Thống kê xử lý vi phạm</a>
+    </sp>
+    <iframe id="tk-content" name="tk-frame" th:src="@{/ThongKe/TKTTSD}" width="100%" height="1000px">
+        Trình duyệt của bạn không hỗ trợ iframe.
+    </iframe>
+    </div>
 </body>
+
 </html>

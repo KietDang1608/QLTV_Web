@@ -1,12 +1,15 @@
 package com.example.QuanLiThanhVienWeb.Entity;
+
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity(name = "ThanhVien")
 @Table(name = "thanhvien")
-public class ThanhVien {
 
+public class ThanhVien {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int maTV;
     private String hoTen;
     private String khoa;
@@ -29,6 +32,7 @@ public class ThanhVien {
         this.khoa = khoa;
         this.nganh = nganh;
         this.sdt = sdt;
+        this.password = password;
         this.email = email;
     }
 
@@ -110,5 +114,7 @@ public class ThanhVien {
                 + ", email=" + email
                 + '}';
     }
-}
 
+
+    
+}

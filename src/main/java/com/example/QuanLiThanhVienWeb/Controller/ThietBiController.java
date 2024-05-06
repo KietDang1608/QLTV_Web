@@ -5,8 +5,27 @@ import com.example.QuanLiThanhVienWeb.Entity.ThietBi;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.io.InputStream;
+import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,15 +76,44 @@ public class ThietBiController {
         int id = tb.getMaTB();
         String tentb = tb.getTenTB();
         String mota = tb.getMoTa();
-        
+        ThietBi tb2 = new ThietBi(tentb, mota);
         ThietBi last=getLastTBByMaLoai(maLoaiTB);
-        ThietBi tb2 = new ThietBi(last.getMaTB()+1,tentb, mota);
+        tb2.setMaTB(last.getMaTB()+1);
         System.out.println(tb2.getMaTB());
         tbRe.save(tb2);
         Iterable<ThietBi> list = tbRe.findAll();
         model.addAttribute("list", list);
         return "redirect:/QLThietBi";
     }
+
+    @RequestMapping(value = "importExcel", method = RequestMethod.POST)
+public String importExcel(Model model, @RequestParam("excelFile") MultipartFile excelFile) {
+    if (excelFile.isEmpty()) {
+        // Xử lý trường hợp không có tệp được chọn
+        // (Hiển thị thông báo cho người dùng, v.v.)
+    } else {
+        try {
+            String excelFilePath = saveExcelFile(excelFile);
+            System.out.println("excel"+excelFilePath);
+            ArrayList<ThietBi> thietBiList = ExcelReader(excelFilePath);
+            
+            // Lưu danh sách thiết bị vào cơ sở dữ liệu
+            for (ThietBi thietBi : thietBiList) {
+                tbRe.save(thietBi);
+                // Thực hiện lưu thietBi vào cơ sở dữ liệu
+            }
+            
+            // Xử lý xong, chuyển hướng hoặc hiển thị view mong muốn
+            return "redirect:/QLThietBi";
+        } catch (IOException e) {
+            // Xử lý ngoại lệ khi có lỗi xảy ra trong quá trình đọc tệp Excel
+            e.printStackTrace();
+        }
+    }
+
+    // Redirect hoặc hiển thị view mong muốn sau khi xử lý xong
+    return "redirect:/QLThietBi";
+}
 
     @GetMapping(value = {"QLThietBi/edit/{id}"})
     public String showEditForm(@PathVariable("id") int id, Model model) {
@@ -189,5 +237,36 @@ public class ThietBiController {
         return kq;
     }
 
+
+    public ArrayList<ThietBi> ExcelReader(String excelFilePath) throws FileNotFoundException, IOException
+    {
+        ArrayList<ThietBi> listTBNew = new ArrayList<>();
+        try (InputStream inputStream = new FileInputStream(excelFilePath)) {
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row currentRow = sheet.getRow(i);
+                ThietBi tb = new ThietBi();
+               tb.setMaTB((int)(currentRow.getCell(1).getNumericCellValue()));
+                tb.setTenTB(currentRow.getCell(2).getStringCellValue());
+                tb.setMoTa(currentRow.getCell(3).getStringCellValue());
+               
+
+                listTBNew.add(tb);
+            }
+        }
+
+        return listTBNew;
+    }
+
+    private String saveExcelFile(MultipartFile excelFile) throws IOException
+    {
+        String uploadsDir = "C:\\Users\\Administrator\\Desktop"; // Thay đổi đường dẫn thư mục tải lên tùy thuộc vào cấu hình của bạn
+        String fileName = excelFile.getOriginalFilename();
+        String filePath = Paths.get(uploadsDir, fileName).toString();
+        excelFile.transferTo(new File(filePath));
+        return filePath;
+    }
 
 }

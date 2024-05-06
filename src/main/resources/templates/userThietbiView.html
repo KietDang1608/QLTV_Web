@@ -1,16 +1,85 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+	    h1{
+	    text-align: center;
+	    border: 1px solid rgb(200, 200, 200);
+	    padding:20px 200px;
+	    margin-top: -20px;
+	    }
+    	#cbtenTB{
+    	height: 35px;
+    	}
+    	#refresh{
+    	position: absolute;
+    	margin-left: 60%;
+    	margin-top: -4%;
+    	}
+    	button{
+    	width: 120px;
+    	height: 35px
+    	}
+		
+    	#search{
+    	position: absolute;
+    	margin-left: 70%;
+    	margin-top: -7%;
+    	}
+    	#search, input{
+    	height: 30px;
+    	}
+    	#loc{
+    	margin : 2%
+    	}
+    	#loc button{
+    	background-color: #edd470;
+    	border: none;
+    	border-radius: 5%;
+    	}
+    	#refresh button{
+    	background-color: #98c8d5;
+    	border: none;
+    	border-radius: 5%;
+    	}
+    	.muonbtn{
+    	background-color: #afb57d;
+    	border: none;
+    	border-radius: 5%;
+    	}
+    	table{
+    	    width: 100%;
+    		margin-top: 10px;
+    	}
+    	table, td, th{
+		    border: 1px solid #333e48;
+		    border-collapse: collapse;
+		}
+		td, th{
+		    padding: 10px 10px;
+		}
+		table thead th{
+		    text-align: left;
+		    background: #33485c;
+		    color: white;
+		}
+		table tbody tr:nth-child(even){
+		    background: #f0f4f9;
+		}
+		.muon_datcho {
+		  display: flex;
+		  justify-content: space-around;
+		}
+    </style>
 </head>
 <body>
 
-<div>List Thiết Bị</div>
-<form th:action="@{/QLThietBi/searchTB}" method="post">
-    Loại TB:
+
+<form id="loc" th:action="@{/QLThietBi/searchTB}" method="post">
     <select id="cbtenTB" name="cbtenTB">
         <!-- Lặp qua danh sách các thành phố -->
         <option th:value="0" th:text="All" ></option>
@@ -22,37 +91,114 @@
         <option th:value="6" th:text="quạt_đứng"></option>
     </select>
 
-    Mô tả:
-    <input type="text" name="mota"/>
+    <input type="text" placeholder="Mô tả" name="mota"/>
     <button type="submit">Lọc</button>
 </form>
 <br>
-<form action="/QLThietBi/deleteSelected" method="post" id="deleteForm">
-    <input type="hidden" id="selectedItems" name="selectedItems">
-    <input type="submit" value="Delete Selected" onclick="return updateSelectedItems()">
+<form id="search" th:action="@{/QLDatCho/searchTBbyName}" method="post">
+	<input type="text" placeholder="Search.." name="search"/>
+	<button type="submit">Tìm</button>
 </form>
 
-<div>List Thiet Bi</div>
+<br>
 
-<table border="1">
-    <tr>
-        <th>MaTb</th>
-        <th>TenTB</th>
-        <th>MotaTB</th>
-        <th>Xử lý</th>
-    </tr>
-    <tr th:each ="row : ${data}">
-        <td th:utext="${row.maTB}">...</td>
-        <td th:utext="${row.tenTB}">...</td>
-        <td th:utext="${row.moTa}">...</td>
-        <td >  
-            <a th:href="${rowStat.index}" >Mượn</a>  
-            <a th:href="${rowStat.index}">Đặt chỗ</a>  
-        </td>
-    </tr>
+
+<h1>Danh sách thiết bị
+
+</h1>
+<table>
+	<thead>
+	    <tr>
+	        <th>MaTb</th>
+	        <th>TenTB</th>
+	        <th>MotaTB</th>
+	        <th>Xử lý</th>
+	    </tr>
+	</thead>
+	<tbody>
+	    <tr th:each ="row : ${data}">
+	        <td th:utext="${row.maTB}">...</td>
+	        <td th:utext="${row.tenTB}">...</td>
+	        <td th:utext="${row.moTa}">...</td>
+	        <td class="muon_datcho">
+	            <form action="#" th:object="${data}" th:action="@{muon}" method="POST">
+	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+	                <input class="muonbtn" type="submit" value="Mượn" th:href="${rowStat.index}" >
+	            </form>
+	           	<form action="#" th:object="${data}" th:action="@{datcho}" method="POST">
+	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+	                <input type="submit" value="Đặt Chỗ" th:href="${rowStat.index}" >
+	            </form>
+	        </td>
+	        
+
+	    </tr>
+	</tbody>
+
 </table>
 
-    
+<hr style="height: 1px;">
+
+<div>Các thiết bị đang đặt chỗ </div>
+
+<table>
+	<thead>
+	    <tr>
+	        <th>MaTb</th>
+	        <th>Thời Gian Cho Mượn </th>
+	        <th>Thời Gian Đặt Chỗ</th>
+	        <th> Xử Lý Mượn</th>
+	
+	    </tr>
+	</thead>
+	<tbody>
+	    <tr th:each ="row : ${dataTT_datcho}">
+	        <td th:utext="${row.maTB}">...</td>
+	        <td th:utext="${row.tgMuon}">...</td>
+	        <td th:utext="${row.TGDatcho}">...</td>
+	        <td>
+	            <form action="#" th:object="${dataTT_datcho}" th:action="@{muon}" method="POST">
+	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+	                <input type="submit" value="Mượn" th:href="${rowStat.index}" >
+	            </form>
+	        </td>
+	    </tr>
+	</tbody>
+
+</table>
+
+<hr style="height: 1px;">
+
+<div>Các thiết bị đang mượn</div>
+
+<table>
+	<thead>
+	    <tr>
+	        <th>MaTb</th>
+	        <th>Thời Gian Cho Mượn </th>
+	        <th>Thời Gian Đặt Chỗ</th>
+	        <th> Xử Lý Trả</th>
+	    </tr>
+	</thead>
+	<tbody>
+	    <tr th:each ="row : ${dataTT_muon}">
+	        <td th:utext="${row.maTB}">...</td>
+	        <td th:utext="${row.tgMuon}">...</td>
+	        <td th:utext="${row.TGDatcho}">...</td>
+	        <td>
+	            <form action="#" th:object="${dataTT_muon}" th:action="@{tra}" method="POST">
+	                <input type="hidden" name="maTB" th:value="${row.maTB}" />
+	                <input type="hidden" name="maTV" th:value="${param.maTV}" />
+	                <input type="submit" value="Trả" th:href="${rowStat.index}" >
+	            </form>
+	        </td>
+	    </tr>
+	</tbody>
+
+</table>
 
     <script th:inline="javascript">
         function updateSelectedItems() {
