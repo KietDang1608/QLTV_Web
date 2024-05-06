@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,14 +48,16 @@ public class XuLyController {
 
     @RequestMapping(value ={"QLXuLy/save"}, method = RequestMethod.POST)
     public String save(Model model, @ModelAttribute("xuly") XuLy xl) {
-        int MaXL = xl.getMaXL();
         int MaTV = xl.getMaTV();
         String hinhThucXL = xl.getHinhThucXL();
         int soTien = xl.getSoTien();
         String ngayXL = xl.getNgayXL();
 
         
+        xl = new XuLy(MaTV, hinhThucXL, soTien, ngayXL);
+        xlRe.save(xl);
         Iterable<XuLy> list = xlRe.findAll();
+
         model.addAttribute("list", list);
         return "redirect:/QLXuLy";
 
@@ -94,9 +97,7 @@ public class XuLyController {
         int index = this.findIndexOfXuLy(maXL);
         if (index >= 0) {
             XuLy xl_Old = listXL.get(index);
-            // xl_Old.setTrangThaiXL(tbNew.getTrangThaiXL()); // Sửa đổi ở đây
-
-           
+            xl_Old.setTrangThaiXL(tbNew.getTrangThaiXL()); // Sửa đổi ở đây
             System.out.println(xl_Old.getTrangThaiXL());
             listXL.set(index, xl_Old);
             xlRe.save(xl_Old);
@@ -104,6 +105,25 @@ public class XuLyController {
         return "redirect:/QLXuLy";
     }
 
+    @GetMapping(value = {"QLXuLy/delete/{id}"})
+    public String deleteTB(@PathVariable("id") int id, Model model) {
+        XuLy xl= listXL.get(id);
+        xlRe.delete(xl);
+        return "redirect:/QLXuLy";
+    }
 
+    @PostMapping(value = "/QLXuLy/deleteSelected")
+    public String deleteSelectedTB(@RequestParam("selectedItems") String selectedItems) {
+        // Chia chuỗi selectedItems thành mảng các maTB
+        String[] maXLs = selectedItems.split(",");
+        for (String maXL :  maXLs) {
+            // Chuyển đổi maTB từ String sang int
+            int id = Integer.parseInt(maXL);
+            System.out.println(id);
+            XuLy xl = getXLByMaXL(id);
+            xlRe.delete(xl);
+        }
+        return "redirect:/QLThietBi";
+    }
 
 }

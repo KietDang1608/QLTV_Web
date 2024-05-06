@@ -40,11 +40,31 @@
             <a th:href="'/QLThietBi/delete/'+ ${rowStat.index}">Delete</a>  
        
         </td>
+        <td>
+            <input type="checkbox" th:id="'checkbox_' + ${rowStat.index}" name="selectedItems" th:value="${row.maXL}" onchange="updateSelectedItems()">
+        </td>
       </tr>
 </table>
 <br/>
 <button> <a href="/addXuLy">  THÊM XỬ LÝ</button>
 
+    <script th:inline="javascript">
+        function updateSelectedItems() {
+            var selectedItems = [];
+            var checkboxes = document.querySelectorAll('input[name="selectedItems"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedItems.push(checkbox.value);
+            });
+            var selectedItemsField = document.getElementById('selectedItems');
+            if (selectedItems.length > 0) {
+                selectedItemsField.value = selectedItems.join(',');
+            } else {
+                alert("Please select at least one item.");
+                return false; // Ngăn form được gửi đi
+            }
+            console.log(selectedItems);
+        }
+    </script>
 
 </body>
 </html>
