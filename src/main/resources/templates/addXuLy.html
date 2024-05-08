@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 
 <div class="container">
     <h2 class="text-center mb-4">Form thêm xử lý</h2>
-    <form action="#" th:object="${xuly}" th:action="@{save}" method="POST">
+    <form action="#" th:object="${xuly}" th:action="@{/QLXuLy/save}" method="POST">
         <div class="mb-3">
             <label for="maXL" class="form-label">Mã xử lý:</label>
             <input type="text" id="maXL" name="maXL" class="form-control" th:field="*{maXL}">
@@ -24,11 +24,12 @@
         <div class="mb-3">
             <label for="hinhThucXL" class="form-label">Hình thức xử lý:</label>
             <select id="hinhThucXL" name="hinhThucXL" class="form-select">
-                <option th:value="1">Khóa thẻ 1 tháng</option>
-                <option th:value="2">Khóa thẻ 2 tháng</option>
-                <option th:value="3">Khóa thẻ vĩnh viễn</option>
-                <option th:value="4">Phạt tiền</option>
+                <option th:value="Khóa_thẻ_1_tháng">Khóa thẻ 1 tháng</option>
+                <option th:value="Khóa_thẻ_2_tháng">Khóa thẻ 2 tháng</option>
+                <option th:value="Khóa_thẻ_vĩnh_viễn">Khóa thẻ vĩnh viễn</option>
+                <option th:value="Phạt_tiền">Phạt tiền</option>
             </select>
+
         </div>
 
         <div class="mb-3">
@@ -44,11 +45,11 @@
         <div class="mb-3">
             <label class="form-label">Trạng thái xử lý:</label>
             <div class="form-check">
-                <input type="radio" id="daXuLy" name="trangThaiXL" value="Đã xử lý" class="form-check-input">
+                <input type="radio" id="daXuLy" name="trangThaiXL" value="1" class="form-check-input">
                 <label for="daXuLy" class="form-check-label">Đã xử lý</label>
             </div>
             <div class="form-check">
-                <input type="radio" id="chuaXuLy" name="trangThaiXL" value="Chưa xử lý" class="form-check-input">
+                <input type="radio" id="chuaXuLy" name="trangThaiXL" value="0" class="form-check-input">
                 <label for="chuaXuLy" class="form-check-label">Chưa xử lý</label>
             </div>
         </div>

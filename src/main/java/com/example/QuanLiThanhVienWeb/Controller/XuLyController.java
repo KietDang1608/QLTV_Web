@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class XuLyController {
@@ -24,7 +20,11 @@ public class XuLyController {
 
     @GetMapping("/QLXuLy")
     public String getAll(Model m){
+        listXL.clear();
         Iterable<XuLy> list = xlRe.findAll();
+        for (XuLy xl : list){
+            listXL.add(xl);
+        }
         m.addAttribute("data",list);
         return "XuLyView";
     }
@@ -47,7 +47,7 @@ public class XuLyController {
         String ngayXL = xl.getNgayXL();
         int trangThaiXL = xl.getTrangThaiXL();
 
-        
+        xlRe.save(xl);
         Iterable<XuLy> list = xlRe.findAll();
         model.addAttribute("list", list);
         return "redirect:/QLXuLy";
@@ -58,8 +58,8 @@ public class XuLyController {
 
     @GetMapping(value = {"QLXuLy/edit/{maXL}"})
     public String showEditForm(@PathVariable("maXL") int maXL, Model model) {
-        XuLy xl = listXL.get(maXL);
-        model.addAttribute("xuly", xl);
+
+        model.addAttribute("xuly", maXL);
         return "editXuLy";
     }
 
@@ -81,16 +81,21 @@ public class XuLyController {
 
     }
 
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update(Model model, @ModelAttribute("xuly") XuLy tbNew) {
-        int maXL = tbNew.getMaXL();
+    @PostMapping(value = {"QLXuLy/update"})
+    public String update(Model model, @RequestParam("xuly") int tbNew, @RequestParam("trangthaiXL") int trangThaiXuLy) {
+        int maXL = tbNew;
+        System.out.println(maXL);
         int index = this.findIndexOfXuLy(maXL);
         if (index >= 0) {
-            XuLy xl_Old = listXL.get(index);
-             xl_Old.setTrangThaiXL(tbNew.getTrangThaiXL()); // Sửa đổi ở đây
-
-           
-            System.out.println(xl_Old.getTrangThaiXL());
+            XuLy xl_Old = new XuLy();
+            for (XuLy temp : listXL){
+                if (temp.getMaXL() == maXL){
+                    xl_Old = temp;
+                    break;
+                }
+            }
+            System.out.println(xl_Old.getMaXL());
+            xl_Old.setTrangThaiXL(trangThaiXuLy); // Sửa đổi ở đây
             listXL.set(index, xl_Old);
             xlRe.save(xl_Old);
         }
