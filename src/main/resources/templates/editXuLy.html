@@ -10,17 +10,15 @@
 <body>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Form sửa xử lý</h2>
-        <form th:object="${xuly}" th:action="@{/update}" method="POST">
-            
-            
+        <form th:object="${xuly}" th:action="@{'/QLXuLy/update?xuly='+${xuly}}" method="POST">
             <div class="mb-3">
-                <label class="form-label">Trạng thái xử lý:</label><br>
+                <label class="form-label">Trạng thái xử lý: </label><br>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangthaiXL" id="daXuLy" value="Đã xử lý">
+                    <input class="form-check-input" type="radio" name="trangthaiXL" id="daXuLy" value="1">
                     <label class="form-check-label" for="daXuLy">Đã xử lý</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangthaiXL" id="chuaXuLy" value="Chưa xử lý">
+                    <input class="form-check-input" type="radio" name="trangthaiXL" id="chuaXuLy" value="0">
                     <label class="form-check-label" for="chuaXuLy">Chưa xử lý</label>
                 </div>
             </div>
