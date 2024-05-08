@@ -28,6 +28,12 @@
             <div class=" d-flex mt-2">
                 <a th:href="@{'/changePassword?maTV='+${maTV}}"  class="btn1 btn-dark">Đổi mật khẩu</a>
             </div>
+            <br>
+            <form id="myForm" th:action="@{/home}" method="post">
+                <input type="hidden" name="hoTen" th:value="${hoTen}" />
+                <input type="hidden" name="maTV" th:value="${maTV}" />
+                <button type="submit" class="btn1 btn-dark">Trở về</button>
+            </form>
         </div>
         <div class=" px-2 rounded mt-4 viPham " onclick="toggleXuLyList()">
             <span class="join">Các vi phạm</span>
