@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit XuLy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Form sửa xử lý</h2>
+        <form th:object="${xuly}" th:action="@{/update}" method="POST">
+            
+            
+            <div class="mb-3">
+                <label class="form-label">Trạng thái xử lý:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangthaiXL" id="daXuLy" value="Đã xử lý">
+                    <label class="form-check-label" for="daXuLy">Đã xử lý</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangthaiXL" id="chuaXuLy" value="Chưa xử lý">
+                    <label class="form-check-label" for="chuaXuLy">Chưa xử lý</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
